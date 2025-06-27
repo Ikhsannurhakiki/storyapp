@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:storyapp/style/colors/app_colors.dart';
+import 'package:storyapp/style/typography/story_app_text_styles.dart';
+import 'package:storyapp/utils/date_utils_helper.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../model/story.dart';
 
@@ -32,7 +35,7 @@ class StoryCard extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 stories.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: StoryAppTextStyles.bodyLargeBold,
               ),
               const Spacer(),
               const Icon(Icons.more_vert),
@@ -54,6 +57,7 @@ class StoryCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text.rich(
+            maxLines: 2,
             TextSpan(
               children: [
                 TextSpan(
@@ -65,7 +69,11 @@ class StoryCard extends StatelessWidget {
             ),
           ),
         ),
-
+        const SizedBox(height: 6),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Text(DateUtilsHelper.getTimeAgo(stories.createdAt)),
+        ),
         const SizedBox(height: 12),
       ],
     );
