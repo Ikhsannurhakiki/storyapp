@@ -57,21 +57,25 @@ class GoRouterService {
         builder: (context, state) => const RegisterScreen(),
       ),
 
-      /// Shell route for bottom navigation
       ShellRoute(
         builder: (context, state, child) {
-          return MainScreen(child: child); // includes BottomNavigationBar
+          return MainScreen();
         },
         routes: [
           GoRoute(
             path: '/home/storyList',
-            name: 'storyList',
-            builder: (context, state) => const StoriesListScreen(),
+            pageBuilder: (context, state) =>
+            const NoTransitionPage(child: StoriesListScreen()),
           ),
+          // GoRoute(
+          //   path: '/home/post',
+          //   pageBuilder: (context, state) =>
+          //   const NoTransitionPage(child: PostScreen()),
+          // ),
           GoRoute(
             path: '/home/profile',
-            name: 'profile',
-            builder: (context, state) => const ProfileScreen(),
+            pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ProfileScreen()),
           ),
         ],
       ),
