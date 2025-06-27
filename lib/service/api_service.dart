@@ -6,8 +6,8 @@ import 'package:storyapp/model/story_list_response.dart';
 
 class ApiServices {
   static const String _baseUrl = "https://story-api.dicoding.dev/v1";
-  final String _token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLUQwbWp4VU14Tk1McncwYW8iLCJpYXQiOjE3NTA4MjI0MjZ9.PbCp94qJ7CtY70v16hB9R_I8T9jhkhjSeYV-B03QA5E';
-
+  final String? token;
+  ApiServices(this.token);
 
   Future<RegisterResponse> register(String name, String email, String password) async {
     final response = await http.post(Uri.parse("$_baseUrl/register"));
@@ -29,7 +29,7 @@ class ApiServices {
 
   Future<StoryListResponse> getStoryList({
     int page = 1,
-    int size = 15,
+    int size = 10,
     int location = 0,
   }) async {
     final uri = Uri.parse("$_baseUrl/stories").replace(
@@ -39,15 +39,13 @@ class ApiServices {
         'location': location.toString(),
       },
     );
-
     final response = await http.get(
       uri,
       headers: {
-        'Authorization': 'Bearer $_token',
+        if (token != null) 'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       return StoryListResponse.fromJson(jsonDecode(response.body));
     } else {

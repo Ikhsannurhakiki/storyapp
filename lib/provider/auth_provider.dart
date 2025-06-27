@@ -51,8 +51,8 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> getUser() async {
     isLoadingRegister = true;
-    final userState = await authRepository.getUser();
-    if (userState != null) {
+    _user = await authRepository.getUser();
+    if (_user != null) {
       isLoggedIn = true;
     }else{
        isLoggedIn = false;

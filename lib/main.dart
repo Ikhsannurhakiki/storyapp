@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storyapp/provider/auth_provider.dart';
 import 'package:storyapp/provider/story_list_provider.dart';
 import 'package:storyapp/repository/auth_repository.dart';
@@ -8,9 +9,11 @@ import 'package:storyapp/service/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final authRepo = AuthRepository();
+  final pref = await SharedPreferences.getInstance();
+  final authRepo = AuthRepository(pref);
   final authProvider = AuthProvider(authRepo);
   await authProvider.getUser();
+  final user = authProvider.user;
   runApp(
     MultiProvider(
       providers: [
@@ -18,7 +21,7 @@ void main() async {
           value: authProvider,
         ),
         Provider(
-          create: (context) => ApiServices(),
+          create: (context) => ApiServices(user?.token),
         ),
         ChangeNotifierProvider(create: (context) => StoryListProvider(context.read<ApiServices>())),
         Provider(create: (_) => GoRouterService()),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:storyapp/style/colors/app_colors.dart';
 
 import '../model/story.dart';
 
@@ -12,49 +13,44 @@ class StoryCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(stories.photoUrl),
-                radius: 20,
+                radius: 18,
+                backgroundColor: AppColors.warmPeach.color,
+                child: Text(
+                  stories.name.isNotEmpty ? stories.name[0].toUpperCase() : '?',
+                  style: TextStyle(
+                    color: AppColors.darkTeal.color,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(width: 10),
-              Text(stories.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                stories.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               const Spacer(),
               const Icon(Icons.more_vert),
             ],
           ),
         ),
 
-        // Image
-        Image.network(
-          stories.photoUrl,
-          width: double.infinity,
-          height: 300,
-          fit: BoxFit.cover,
-        ),
-
-        // Actions
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
-            children: const [
-              Icon(Icons.favorite_border),
-              SizedBox(width: 16),
-              Icon(Icons.chat_bubble_outline),
-              SizedBox(width: 16),
-              Icon(Icons.send),
-              Spacer(),
-              Icon(Icons.bookmark_border),
-            ],
+        Container(
+          color: Colors.black, // Background colo
+          child: Image.network(
+            stories.photoUrl,
+            width: double.infinity,
+            height: 300,
+            fit: BoxFit.scaleDown,
           ),
         ),
 
-        // Caption
+        const SizedBox(height: 12),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text.rich(
@@ -64,7 +60,7 @@ class StoryCard extends StatelessWidget {
                   text: stories.name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                TextSpan(text: stories.description),
+                TextSpan(text: " ${stories.description}"),
               ],
             ),
           ),

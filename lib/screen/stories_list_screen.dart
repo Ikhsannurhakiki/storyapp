@@ -21,7 +21,7 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<StoryListProvider>().fetchRestaurantList();
+      context.read<StoryListProvider>().fetchStoryList();
     });
   }
 
@@ -29,40 +29,47 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
   Widget build(BuildContext context) {
     final authWatch = context.watch<AuthProvider>();
     return Scaffold(
-      appBar: AppBar(title: Text("Quotes App", style: StoryAppTextStyles.headlineMedium,)),
+      appBar: AppBar(
+        title: Text("Quotes App", style: StoryAppTextStyles.headlineMedium),
+      ),
       body: Consumer<StoryListProvider>(
-        builder: (context, value, child) {
-          return switch (value.resultState) {
-            StoryListNoneState() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            StoryListLoadingState() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            StoryListErrorState() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            StoryListLoadedState(stories: var stories) => ListView.builder(
-              itemCount: stories.length,
-              itemBuilder: (context, index) {
-                return StoryCard(stories: stories[index]);
+        builder: (context, provider, _) {
+          return NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (!provider.isLoading &&
+                  scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                provider.fetchMore();
+              }
+              return false;
+            },
+            child: RefreshIndicator(
+              onRefresh: () => provider.refresh(),
+              child: switch (provider.resultState) {
+                StoryListNoneState() ||
+                StoryListLoadingState() => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                StoryListErrorState() => const Center(
+                  child: Text("Error loading stories"),
+                ),
+                StoryListLoadedState(stories: var stories) => ListView.builder(
+                  itemCount: stories.length + (provider.hasMore ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index < stories.length) {
+                      return StoryCard(stories: stories[index]);
+                    } else {
+                      return const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                  },
+                ),
+                _ => const Center(child: CircularProgressIndicator()),
               },
             ),
-          };
+          );
         },
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // final authRead = context.read<AuthProvider>();
-          // final result = await authRead.logout();
-          // if (result) widget.onLogout();
-        },
-        tooltip: "Logout",
-
-        child: authWatch.isLoadingLogout
-            ? const CircularProgressIndicator(color: Colors.white)
-            : const Icon(Icons.logout),
       ),
     );
   }

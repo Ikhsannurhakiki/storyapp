@@ -7,9 +7,12 @@ import '../model/auth_response.dart';
 import '../model/user.dart';
 
 class AuthRepository {
+  final SharedPreferences _pref;
   final String stateKey = "state";
   final String userKey = "user";
   static const String _baseUrl = "https://story-api.dicoding.dev/v1";
+
+  AuthRepository(this._pref);
 
   Future<User> login(String email, String password) async {
     final response = await http.post(
@@ -24,7 +27,6 @@ class AuthRepository {
       final loginResult = data['loginResult'];
       final user = User.fromJson(loginResult);
       saveUser(user);
-      print(user);
       return user;
     } else {
       final error = jsonDecode(response.body);
@@ -48,7 +50,6 @@ class AuthRepository {
     } catch (e) {
       user = null;
     }
-    print(user);
     return user;
   }
 
@@ -82,5 +83,6 @@ class AuthRepository {
     return preferences.setBool(stateKey, false);
   }
 
+  Future<String?> getToken() => getUser().then((user) => user?.token);
 
 }
