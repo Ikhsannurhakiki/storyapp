@@ -7,17 +7,18 @@ import 'package:storyapp/provider/main_provider.dart';
 
 import '../style/colors/app_colors.dart';
 
-class ImagePreviewScreen extends StatelessWidget{
+class ImagePreviewScreen extends StatelessWidget {
   const ImagePreviewScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final imagePath = context.read<MainProvider>().imagePath;
+    if (imagePath == null) {
+      context.pop();
+    }
     return Scaffold(
       body: Center(
-        child: Image.file(
-          File(imagePath.toString()),
-          fit: BoxFit.contain,
-        ),
+        child: Image.file(File(imagePath.toString()), fit: BoxFit.contain),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -25,21 +26,45 @@ class ImagePreviewScreen extends StatelessWidget{
           children: [
             Expanded(
               child: OutlinedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () => context.pop(),
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.cancel_outlined, color: Colors.red),
+                    const Text(
+                      "Cancel",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                onPressed: () =>context.pop,
-                child: const Text("Cancel", style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.lightTeal.color
+                  backgroundColor: AppColors.lightTeal.color,
                 ),
                 onPressed: () => context.push("/home/post"),
-                child: const Text("Next", style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.next_plan_outlined, color: Colors.black),
+                    const Text(
+                      "Next",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -47,5 +72,4 @@ class ImagePreviewScreen extends StatelessWidget{
       ),
     );
   }
-
 }

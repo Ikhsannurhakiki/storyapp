@@ -14,4 +14,14 @@ class MainProvider extends ChangeNotifier{
     imageFile = value;
     notifyListeners();
   }
+
+  void clearImagePath() {
+    imagePath = null;
+    notifyListeners();
+  }
+
+  void clearImageFile() {
+    imageFile = null;
+    notifyListeners();
+  }
 }

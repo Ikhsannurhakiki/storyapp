@@ -42,7 +42,10 @@ class _MainScreenState extends State<MainScreen> {
             : AppColors.lightTeal.color,
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(28),
-          side: BorderSide(color: isDarkMode ? Colors.black : Colors.white, width: 3),
+          side: BorderSide(
+            color: isDarkMode ? Colors.black : Colors.white,
+            width: 3,
+          ),
         ),
         child: const Icon(Icons.add, size: 25),
       ),
@@ -93,9 +96,7 @@ class _MainScreenState extends State<MainScreen> {
 
     final picker = ImagePicker();
 
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       provider.setImageFile(pickedFile);
@@ -112,9 +113,7 @@ class _MainScreenState extends State<MainScreen> {
     final isNotMobile = !(isAndroid || isiOS);
     if (isNotMobile) return;
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.camera,
-    );
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       provider.setImageFile(pickedFile);
       provider.setImagePath(pickedFile.path);
@@ -124,8 +123,10 @@ class _MainScreenState extends State<MainScreen> {
 
   _onCustomCameraView() async {}
 
-
   void _showPostOptions(BuildContext context) {
+    final provider = context.read<MainProvider>();
+    provider.clearImagePath();
+    provider.clearImageFile();
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -140,12 +141,18 @@ class _MainScreenState extends State<MainScreen> {
                 ListTile(
                   leading: const Icon(Icons.photo_library),
                   title: const Text('Gallery'),
-                  onTap: () => _onGalleryView(),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _onGalleryView();
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.camera_alt),
                   title: const Text('Camera'),
-                  onTap: () => _onCameraView()
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _onCameraView();
+                  },
                 ),
                 const Divider(),
                 ListTile(
@@ -161,6 +168,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-
-

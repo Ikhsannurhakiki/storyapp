@@ -5,6 +5,7 @@ import 'package:storyapp/provider/auth_provider.dart';
 import 'package:storyapp/provider/main_provider.dart';
 import 'package:storyapp/provider/profile_provider.dart';
 import 'package:storyapp/provider/story_list_provider.dart';
+import 'package:storyapp/provider/upload_provider.dart';
 import 'package:storyapp/repository/auth_repository.dart';
 import 'package:storyapp/routes/go_router_service.dart';
 import 'package:storyapp/service/api_service.dart';
@@ -39,6 +40,11 @@ void main() async {
         Provider(create: (_) => GoRouterService()),
         ChangeNotifierProvider(
           create: (context) => MainProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UploadProvider(
+            ApiServices(user?.token),
+          ),
         ),
       ],
       child: ChangeNotifierProvider.value(

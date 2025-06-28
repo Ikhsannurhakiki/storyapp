@@ -15,7 +15,7 @@ class StoryAppTheme {
 
   static ThemeData get darkTheme =>
       ThemeData(
-        colorSchemeSeed: AppColors.navyBlue.color,
+        colorSchemeSeed: AppColors.lightTeal.color,
         brightness: Brightness.dark,
         textTheme: _textTheme,
         useMaterial3: true,
