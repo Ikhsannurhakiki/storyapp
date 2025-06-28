@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:storyapp/provider/main_provider.dart';
 import 'package:storyapp/screen/profile_screen.dart';
 import 'package:storyapp/screen/stories_list_screen.dart';
 
@@ -26,19 +30,19 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       extendBody: true,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _onTap(2),
-        backgroundColor: AppColors.navyBlue.color,
+        onPressed: () => _showPostOptions(context),
+        backgroundColor: isDarkMode
+            ? AppColors.darkTeal.color
+            : AppColors.lightTeal.color,
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(28),
-          side: const BorderSide(color: Colors.white, width: 3),
+          side: BorderSide(color: isDarkMode ? Colors.black : Colors.white, width: 3),
         ),
         child: const Icon(Icons.add, size: 25),
       ),
@@ -55,7 +59,9 @@ class _MainScreenState extends State<MainScreen> {
               IconButton(
                 icon: Icon(
                   Icons.home,
-                  color: _currentIndex == 0 ? AppColors.navyBlue.color : Colors.grey,
+                  color: _currentIndex == 0
+                      ? AppColors.navyBlue.color
+                      : Colors.grey,
                   size: 30,
                 ),
                 onPressed: () => _onTap(0),
@@ -64,7 +70,9 @@ class _MainScreenState extends State<MainScreen> {
               IconButton(
                 icon: Icon(
                   Icons.person,
-                  color: _currentIndex == 1 ? AppColors.navyBlue.color : Colors.grey,
+                  color: _currentIndex == 1
+                      ? AppColors.navyBlue.color
+                      : Colors.grey,
                   size: 30,
                 ),
                 onPressed: () => _onTap(1),
@@ -75,5 +83,84 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
+  _onGalleryView() async {
+    final provider = context.read<MainProvider>();
+
+    final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
+    final isLinux = defaultTargetPlatform == TargetPlatform.linux;
+    if (isMacOS || isLinux) return;
+
+    final picker = ImagePicker();
+
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+    }
+    context.push('/home/preview');
+  }
+
+  _onCameraView() async {
+    final provider = context.read<MainProvider>();
+
+    final isAndroid = defaultTargetPlatform == TargetPlatform.android;
+    final isiOS = defaultTargetPlatform == TargetPlatform.iOS;
+    final isNotMobile = !(isAndroid || isiOS);
+    if (isNotMobile) return;
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+    }
+    context.push('/home/preview');
+  }
+
+  _onCustomCameraView() async {}
+
+
+  void _showPostOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Gallery'),
+                  onTap: () => _onGalleryView(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Camera'),
+                  onTap: () => _onCameraView()
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.close),
+                  title: const Text('Cancel'),
+                  onTap: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+
+
 

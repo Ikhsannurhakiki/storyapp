@@ -25,7 +25,8 @@ class AuthRepository {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final loginResult = data['loginResult'];
-      final user = User.fromJson(loginResult);
+      final user = User.fromMap(loginResult);
+      _pref.setBool(stateKey, true);
       saveUser(user);
       return user;
     } else {
@@ -35,15 +36,17 @@ class AuthRepository {
   }
 
   Future<bool> saveUser(User user) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.setString(userKey, user.toJson());
+    return _pref.setString(userKey, user.toJson());
+  }
+
+  Future<bool> deleteUser() async{
+    return _pref.remove(userKey);
   }
 
 
   Future<User?> getUser() async {
     await Future.delayed(const Duration(seconds: 2));
-    final preferences = await SharedPreferences.getInstance();
-    final json = preferences.getString(userKey) ?? "";
+    final json = _pref.getString(userKey) ?? "";
     User? user;
     try {
       user = User.fromJson(json);
@@ -72,15 +75,13 @@ class AuthRepository {
   }
 
   Future<bool> isLoggedIn() async {
-    final preferences = await SharedPreferences.getInstance();
     await Future.delayed(const Duration(seconds: 2));
-    return preferences.getBool(stateKey) ?? false;
+    return _pref.getBool(stateKey) ?? false;
   }
 
   Future<bool> logout() async {
-    final preferences = await SharedPreferences.getInstance();
     await Future.delayed(const Duration(seconds: 2));
-    return preferences.setBool(stateKey, false);
+    return _pref.setBool(stateKey, false);
   }
 
   Future<String?> getToken() => getUser().then((user) => user?.token);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storyapp/provider/auth_provider.dart';
+import 'package:storyapp/provider/main_provider.dart';
 import 'package:storyapp/provider/profile_provider.dart';
 import 'package:storyapp/provider/story_list_provider.dart';
 import 'package:storyapp/repository/auth_repository.dart';
@@ -20,6 +21,7 @@ void main() async {
   final service = SharedPreferencesService(pref);
   final profileProvider = ProfileProvider(service);
   await profileProvider.getTheme();
+  await authProvider.init();
 
   runApp(
     MultiProvider(
@@ -35,6 +37,9 @@ void main() async {
           create: (context) => StoryListProvider(context.read<ApiServices>()),
         ),
         Provider(create: (_) => GoRouterService()),
+        ChangeNotifierProvider(
+          create: (context) => MainProvider(),
+        ),
       ],
       child: ChangeNotifierProvider.value(
         value: profileProvider,

@@ -1,0 +1,51 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:storyapp/provider/main_provider.dart';
+
+import '../style/colors/app_colors.dart';
+
+class ImagePreviewScreen extends StatelessWidget{
+  const ImagePreviewScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final imagePath = context.read<MainProvider>().imagePath;
+    return Scaffold(
+      body: Center(
+        child: Image.file(
+          File(imagePath.toString()),
+          fit: BoxFit.contain,
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white
+                ),
+                onPressed: () =>context.pop,
+                child: const Text("Cancel", style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.lightTeal.color
+                ),
+                onPressed: () => context.push("/home/post"),
+                child: const Text("Next", style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+}

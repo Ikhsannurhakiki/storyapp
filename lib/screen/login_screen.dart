@@ -24,9 +24,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login() async {
     final authProvider = context.read<AuthProvider>();
-    await authProvider.login(
+    bool? isLoggedIn = await authProvider.login(
       emailController.text, passwordController.text,
     );
+    print(isLoggedIn);
+    if(isLoggedIn) {
+      context.go('/home');
+    }
   }
 
   @override

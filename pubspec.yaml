@@ -39,6 +39,8 @@ dependencies:
   go_router: ^15.2.3
   http: ^1.4.0
   timeago: ^3.7.1
+  image_picker: ^1.1.2
+  image_picker_windows: ^0.2.1+1
 
 dev_dependencies:
   flutter_test:

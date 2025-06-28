@@ -16,29 +16,38 @@ class AuthProvider extends ChangeNotifier {
   bool isLoggedIn = false;
   User? get user => _user;
 
-  Future<void> login(String email, String password) async {
+  Future<bool> init() async {
+    isLoggedIn = await authRepository.isLoggedIn();
+    print(isLoggedIn);
+    _isInitialized = true;
+    notifyListeners();
+    return isLoggedIn;
+  }
+
+  Future<bool> login(String email, String password) async {
     isLoadingLogin = true;
     _user = await authRepository.login(email, password);
     if (_user != null) {
-      isLoggedIn = true;
+      isLoggedIn = await authRepository.isLoggedIn();
     }
     notifyListeners();
     isLoadingLogin = false;
     notifyListeners();
+    return isLoggedIn;
   }
 
-  // Future<bool> logout() async {
-  //   isLoadingLogout = true;
-  //   notifyListeners();
-  //   final logout = await authRepository.logout();
-  //   if (logout) {
-  //     await authRepository.deleteUser();
-  //   }
-  //   isLoggedIn = await authRepository.isLoggedIn();
-  //   isLoadingLogout = false;
-  //   notifyListeners();
-  //   return !isLoggedIn;
-  // }
+  Future<bool> logout() async {
+    isLoadingLogout = true;
+    notifyListeners();
+    final logout = await authRepository.logout();
+    if (logout) {
+      await authRepository.deleteUser();
+    }
+    isLoggedIn = await authRepository.isLoggedIn();
+    isLoadingLogout = false;
+    notifyListeners();
+    return isLoggedIn;
+  }
 
   Future<bool> register(username, email, password) async {
     isLoadingRegister = true;
@@ -49,17 +58,11 @@ class AuthProvider extends ChangeNotifier {
     return userState.error;
   }
 
-  Future<bool> getUser() async {
+  Future<void> getUser() async {
     isLoadingRegister = true;
     _user = await authRepository.getUser();
-    if (_user != null) {
-      isLoggedIn = true;
-    }else{
-       isLoggedIn = false;
-    }
     isLoadingRegister = false;
     _isInitialized = true;
     notifyListeners();
-    return isLoggedIn;
   }
 }
