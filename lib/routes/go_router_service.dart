@@ -4,6 +4,7 @@ import 'package:storyapp/screen/main_screen.dart';
 import 'package:storyapp/screen/post_screen.dart';
 
 import '../provider/auth_provider.dart';
+import '../screen/detail_screen.dart';
 import '../screen/image_preview_screen.dart';
 import '../screen/login_screen.dart';
 import '../screen/register_screen.dart';
@@ -58,11 +59,6 @@ class GoRouterService {
         builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
-        path: '/home/storyList',
-        name: 'storyList',
-        builder: (context, state) => const StoriesListScreen(),
-      ),
-      GoRoute(
         path: '/home/preview',
         name: 'preview',
         builder: (context, state) => const ImagePreviewScreen(),
@@ -76,6 +72,21 @@ class GoRouterService {
         path: '/home',
         name: 'home',
         builder: (context, state) => const MainScreen(),
+        routes: [
+          GoRoute(
+            path: 'storylist',
+            builder: (context, state) => const StoriesListScreen(),
+            routes: [
+              GoRoute(
+                path: 'detail/:id',
+                builder: (context, state) {
+                  final id = state.pathParameters['id'];
+                  return DetailScreen(id: id!);
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     ],
   );

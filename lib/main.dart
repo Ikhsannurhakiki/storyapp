@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:storyapp/provider/auth_provider.dart';
+import 'package:storyapp/provider/detail_provider.dart';
 import 'package:storyapp/provider/main_provider.dart';
 import 'package:storyapp/provider/profile_provider.dart';
 import 'package:storyapp/provider/story_list_provider.dart';
@@ -23,8 +24,8 @@ void main() async {
   final authRepo = AuthRepository(prefs);
 
   final authProvider = AuthProvider(authRepo);
-  await authProvider.getUser(); // 🔄 Load user first
-  await authProvider.init();    // ✅ Then check session and set isInitialized
+  await authProvider.getUser();
+  await authProvider.init();
 
   final profileProvider = ProfileProvider(sharedPrefService);
   await profileProvider.getTheme();
@@ -53,6 +54,12 @@ void main() async {
           create: (context) => UploadProvider(
             context.read<ApiServices>(),
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              DetailProvider(
+                context.read<ApiServices>(),
+              ),
         ),
       ],
       child: const MyApp(),

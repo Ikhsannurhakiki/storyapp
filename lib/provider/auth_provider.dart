@@ -14,7 +14,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isInitialized = false;
   bool _isInitializing = false;
   bool get isInitialized => _isInitialized;
-  bool isLoggedIn = false;
+  bool isLoggedIn = true;
   User? get user => _user;
   String _message = "";
   String get message => _message;
@@ -23,7 +23,6 @@ class AuthProvider extends ChangeNotifier {
     if (_isInitialized || _isInitializing) return isLoggedIn;
 
     _isInitializing = true;
-
     isLoggedIn = await authRepository.isLoggedIn();
     _isInitialized = true;
     _isInitializing = false;

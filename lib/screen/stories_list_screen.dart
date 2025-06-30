@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storyapp/static/story_list_result_state.dart';
 import 'package:storyapp/widget/storyCard.dart';
@@ -27,7 +28,6 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authWatch = context.watch<AuthProvider>();
     return Scaffold(
       appBar: AppBar(
         title: Text("Story App", style: StoryAppTextStyles.headlineMedium),
@@ -37,7 +37,8 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (!provider.isLoading &&
-                  scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                  scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent) {
                 provider.fetchMore();
               }
               return false;
@@ -45,8 +46,7 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
             child: RefreshIndicator(
               onRefresh: () => provider.refresh(),
               child: switch (provider.resultState) {
-                StoryListNoneState() ||
-                StoryListLoadingState() => const Center(
+                StoryListNoneState() || StoryListLoadingState() => const Center(
                   child: CircularProgressIndicator(),
                 ),
                 StoryListErrorState() => const Center(
@@ -56,7 +56,12 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
                   itemCount: stories.length + (provider.hasMore ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index < stories.length) {
-                      return StoryCard(stories: stories[index]);
+                      return StoryCard(
+                        stories: stories[index],
+                        onTap: () => context.push(
+                          '/home/storylist/detail/${stories[index].id}',
+                        ),
+                      );
                     } else {
                       return const Padding(
                         padding: EdgeInsets.all(16),
