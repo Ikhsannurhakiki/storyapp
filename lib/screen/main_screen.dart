@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:storyapp/screen/profile_screen.dart';
 import 'package:storyapp/screen/stories_list_screen.dart';
 
 import '../style/colors/app_colors.dart';
+import 'camera_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -55,11 +57,13 @@ class _MainScreenState extends State<MainScreen> {
           topRight: Radius.circular(20),
         ),
         child: BottomAppBar(
-          height: 50,
+          height: 80,
           child: Row(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
+                padding: EdgeInsets.zero,
                 icon: Icon(
                   Icons.home,
                   color: _currentIndex == 0
@@ -121,7 +125,30 @@ class _MainScreenState extends State<MainScreen> {
     context.push('/home/preview');
   }
 
-  _onCustomCameraView() async {}
+  _onCustomCameraView() async {
+    final provider = context.read<MainProvider>();
+    final navigator = Navigator.of(context);
+print("zaza");
+    final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
+    final isLinux = defaultTargetPlatform == TargetPlatform.linux;
+    if (isMacOS || isLinux) return;
+
+    final cameras = await availableCameras();
+
+    final XFile? resultImageFile = await navigator.push(
+      MaterialPageRoute(
+        builder: (context) => CameraScreen(
+          cameras: cameras,
+        ),
+      ),
+    );
+
+    if (resultImageFile != null) {
+      provider.setImageFile(resultImageFile);
+      provider.setImagePath(resultImageFile.path);
+    }
+    context.push('/home/preview');
+  }
 
   void _showPostOptions(BuildContext context) {
     final provider = context.read<MainProvider>();
@@ -152,6 +179,14 @@ class _MainScreenState extends State<MainScreen> {
                   onTap: () {
                     Navigator.of(context).pop();
                     _onCameraView();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_enhance_rounded),
+                  title: const Text('Custom Camera'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _onCustomCameraView();
                   },
                 ),
                 const Divider(),

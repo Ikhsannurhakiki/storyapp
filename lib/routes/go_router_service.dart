@@ -10,29 +10,37 @@ import '../screen/register_screen.dart';
 import '../screen/splash_screen.dart';
 import '../screen/stories_list_screen.dart';
 
-class GoRouterService  {
+class GoRouterService {
   GoRouter get router => _router;
+  final AuthProvider authProvider;
+
+  GoRouterService(this.authProvider);
 
   late final GoRouter _router = GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
-    redirect: (context, state) async {
-      final auth = context.read<AuthProvider>();
-
+    refreshListenable: authProvider,
+    // 👈 This triggers redirect when AuthProvider changes
+    redirect: (context, state) {
       final isSplash = state.matchedLocation == '/';
       final isLoggingIn = state.matchedLocation == '/login';
       final isRegistering = state.matchedLocation == '/register';
+      final auth = authProvider;
 
-      if (!auth.isInitialized) return null;
-      if (auth.isLoggedIn && (isSplash)) {
+      // Let splash always show
+      if (!auth.isInitialized && isSplash) return null;
+
+      if (!auth.isLoggedIn && !isLoggingIn && !isRegistering && !isSplash) {
         return '/login';
       }
 
-      if (auth.isLoggedIn && (isLoggingIn || isRegistering || isSplash)) {
+      if (auth.isLoggedIn && (isLoggingIn || isRegistering)) {
         return '/home';
       }
+
       return null;
     },
+
     routes: [
       GoRoute(
         path: '/',
@@ -72,5 +80,3 @@ class GoRouterService  {
     ],
   );
 }
-
-

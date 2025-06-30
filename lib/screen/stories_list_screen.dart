@@ -30,7 +30,7 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
     final authWatch = context.watch<AuthProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quotes App", style: StoryAppTextStyles.headlineMedium),
+        title: Text("Story App", style: StoryAppTextStyles.headlineMedium),
       ),
       body: Consumer<StoryListProvider>(
         builder: (context, provider, _) {

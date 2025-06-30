@@ -22,7 +22,7 @@ class AuthRepository {
     );
 
     final data = jsonDecode(response.body);
-
+    print(password);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final loginResult = data['loginResult'];
       final user = User.fromMap(loginResult);
@@ -32,7 +32,9 @@ class AuthRepository {
     } else {
       final error = jsonDecode(response.body);
       throw Exception(error['message'] ?? 'Failed to login');
+
     }
+
   }
 
   Future<bool> saveUser(User user) async {

@@ -24,11 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login() async {
     final authProvider = context.read<AuthProvider>();
-    bool? isLoggedIn = await authProvider.login(
-      emailController.text, passwordController.text,
+    final scaffoldMessengerState = ScaffoldMessenger.of(context);
+    print(passwordController.text.trim());
+    final isLoggedIn = await authProvider.login(
+      emailController.text,
+      passwordController.text,
     );
-    print(isLoggedIn);
-    if(isLoggedIn) {
+
+    final message = authProvider.message;
+    print(message);
+    scaffoldMessengerState.showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+
+    if (isLoggedIn) {
       context.go('/home');
     }
   }
@@ -62,7 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Lets Begin!", style:StoryAppTextStyles.headlineLarge),
+                    Text(
+                      "Lets Begin!",
+                      style: StoryAppTextStyles.headlineLarge,
+                    ),
                     SizedBox(height: 25),
                     Stack(
                       alignment: Alignment.centerRight,
@@ -81,25 +93,34 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? null
                                 : 'That email looks a bit off. Fix it?';
                           },
-                          style:  StoryAppTextStyles.bodyLargeBold,
+                          style: StoryAppTextStyles.bodyLargeBold,
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             labelText: 'Email',
                             // hint: "Drop your email here",
                             labelStyle: StoryAppTextStyles.labelLarge,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                               borderSide: BorderSide(
                                 color: Colors.orange,
                                 width: 4,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(color: AppColors.lightTeal.color, width: 3),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              borderSide: BorderSide(
+                                color: AppColors.lightTeal.color,
+                                width: 3,
+                              ),
                             ),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.transparent),
@@ -115,12 +136,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                isPasswordFieldVisible = !isPasswordFieldVisible;
+                                isPasswordFieldVisible =
+                                    !isPasswordFieldVisible;
                               });
                             },
                             child: !isPasswordFieldVisible
                                 ? const SizedBox.shrink()
-                                : Icon(Icons.edit, color: AppColors.darkTeal.color),
+                                : Icon(
+                                    Icons.edit,
+                                    color: AppColors.darkTeal.color,
+                                  ),
                           ),
                         ),
                       ],
@@ -147,27 +172,38 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             obscureText: isObscure,
-                            style:  StoryAppTextStyles.bodyLargeBold,
+                            style: StoryAppTextStyles.bodyLargeBold,
                             onChanged: (value) {},
                             decoration: InputDecoration(
                               labelText: 'Password',
                               labelStyle: StoryAppTextStyles.titleMedium,
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                               ),
                               focusedBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                                 borderSide: BorderSide(
                                   color: Colors.orange,
                                   width: 4,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: AppColors.lightTeal.color, width: 3),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                borderSide: BorderSide(
+                                  color: AppColors.lightTeal.color,
+                                  width: 3,
+                                ),
                               ),
                               disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                ),
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -200,7 +236,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               isPasswordFieldVisible = !isPasswordFieldVisible;
                             }
                           } else {
-                            if (_passwordFieldKey.currentState!.validate()) login();
+                            if (_passwordFieldKey.currentState!.validate()) {
+                              login();
+                            }
                           }
                         });
                       },
@@ -226,12 +264,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             )
                           : (!isPasswordFieldVisible
-                                ? Text('Continue', style: StoryAppTextStyles.titleMedium)
-                                : Text('Jump In', style: StoryAppTextStyles.titleMedium)),
+                                ? Text(
+                                    'Continue',
+                                    style: StoryAppTextStyles.titleMedium,
+                                  )
+                                : Text(
+                                    'Jump In',
+                                    style: StoryAppTextStyles.titleMedium,
+                                  )),
                     ),
                     TextButton(
-                        onPressed: () => context.push('/register'),
-                      child: Text("New here? Join the story!", style: StoryAppTextStyles.titleMedium)
+                      onPressed: () => context.push('/register'),
+                      child: Text(
+                        "New here? Join the story!",
+                        style: StoryAppTextStyles.titleMedium,
+                      ),
                     ),
                   ],
                 ),

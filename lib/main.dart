@@ -1,56 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:storyapp/provider/auth_provider.dart';
 import 'package:storyapp/provider/main_provider.dart';
 import 'package:storyapp/provider/profile_provider.dart';
 import 'package:storyapp/provider/story_list_provider.dart';
 import 'package:storyapp/provider/upload_provider.dart';
+
 import 'package:storyapp/repository/auth_repository.dart';
 import 'package:storyapp/routes/go_router_service.dart';
 import 'package:storyapp/service/api_service.dart';
 import 'package:storyapp/service/shared_preferences_service.dart';
+
 import 'package:storyapp/style/theme/story_app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final pref = await SharedPreferences.getInstance();
-  final authRepo = AuthRepository(pref);
+
+  final prefs = await SharedPreferences.getInstance();
+  final sharedPrefService = SharedPreferencesService(prefs);
+  final authRepo = AuthRepository(prefs);
+
   final authProvider = AuthProvider(authRepo);
-  await authProvider.getUser();
-  final user = authProvider.user;
-  final service = SharedPreferencesService(pref);
-  final profileProvider = ProfileProvider(service);
+  await authProvider.getUser(); // 🔄 Load user first
+  await authProvider.init();    // ✅ Then check session and set isInitialized
+
+  final profileProvider = ProfileProvider(sharedPrefService);
   await profileProvider.getTheme();
-  await authProvider.init();
+
+  final routerService = GoRouterService(authProvider);
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: authProvider),
-        Provider(create: (context) => SharedPreferencesService(pref)),
-        ChangeNotifierProvider(
-          create: (context) =>
-              ProfileProvider(context.read<SharedPreferencesService>()),
+        ChangeNotifierProvider.value(value: profileProvider),
+        Provider.value(value: sharedPrefService),
+        Provider.value(value: routerService),
+        Provider(
+          create: (_) => ApiServices(authProvider.user?.token),
         ),
-        Provider(create: (context) => ApiServices(user?.token)),
         ChangeNotifierProvider(
-          create: (context) => StoryListProvider(context.read<ApiServices>()),
+          create: (context) => StoryListProvider(
+            context.read<ApiServices>(),
+          ),
         ),
-        Provider(create: (_) => GoRouterService()),
         ChangeNotifierProvider(
-          create: (context) => MainProvider(),
+          create: (_) => MainProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => UploadProvider(
-            ApiServices(user?.token),
+            context.read<ApiServices>(),
           ),
         ),
       ],
-      child: ChangeNotifierProvider.value(
-        value: profileProvider,
-        child: const MyApp(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
@@ -61,7 +66,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileProvider>(
-      builder: (context, provider, child) {
+      builder: (context, provider, _) {
         return MaterialApp.router(
           title: 'Story App',
           theme: StoryAppTheme.lightTheme,

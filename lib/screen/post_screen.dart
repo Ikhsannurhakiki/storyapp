@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:storyapp/provider/auth_provider.dart';
 
 import '../provider/main_provider.dart';
 import '../provider/upload_provider.dart';
@@ -97,7 +98,9 @@ class _PostScreenState extends State<PostScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                     ),
-                    onPressed: provider.isUploading ? null : () => context.pop(),
+                    onPressed: provider.isUploading
+                        ? null
+                        : () => context.pop(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,16 +123,19 @@ class _PostScreenState extends State<PostScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.lightTeal.color,
                     ),
-                    onPressed: () => _onUpload(),
+                    onPressed: () => provider.isUploading ? null : _onUpload(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         provider.isUploading
                             ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(color: Colors.white))
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
                             : const Icon(
                                 Icons.upload_outlined,
                                 color: Colors.black,
@@ -196,6 +202,6 @@ class _PostScreenState extends State<PostScreen> {
     scaffoldMessengerState.showSnackBar(
       SnackBar(content: Text(uploadProvider.message)),
     );
-   context.go("/home");
+    context.go("/home");
   }
 }

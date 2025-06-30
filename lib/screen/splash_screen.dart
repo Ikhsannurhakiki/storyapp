@@ -13,6 +13,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      final auth = context.read<AuthProvider>();
+      if (auth.isLoggedIn) {
+        context.go('/home');
+      } else {
+        context.go('/login');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

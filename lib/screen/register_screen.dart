@@ -46,6 +46,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authWatch = context.watch<AuthProvider>();
+    final ScaffoldMessengerState scaffoldMessengerState = ScaffoldMessenger.of(
+      context,
+    );
     return Scaffold(
       body: SingleChildScrollView(
         child: ConstrainedBox(
@@ -237,7 +240,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _emailFieldKey.currentState!.validate() &&
                             _passwordFieldKey.currentState!.validate()) {
                           register();
-                          context.go('/storyList');
+                          scaffoldMessengerState.showSnackBar(
+                            SnackBar(content: Text(authWatch.message)),
+                          );
+                          context.go('/login');
                         }
                       },
                       style: ElevatedButton.styleFrom(

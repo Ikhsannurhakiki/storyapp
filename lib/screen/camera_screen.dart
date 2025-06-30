@@ -65,16 +65,13 @@ class _CameraScreenState extends State<CameraScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final CameraController? cameraController = controller;
 
-    // App state changed before we got the chance to initialize.
     if (cameraController == null || !cameraController.value.isInitialized) {
       return;
     }
 
     if (state == AppLifecycleState.inactive) {
-      // Free up memory when camera not active
       cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
-      // Reinitialize the camera with same properties
       onNewCameraSelected(cameraController.description);
     }
   }
@@ -85,7 +82,7 @@ class _CameraScreenState extends State<CameraScreen>
       data: ThemeData.dark(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Ambil Gambar"),
+          title: const Text("Pick an Image"),
           actions: [
             IconButton(
               onPressed: () => _onCameraSwitch(),
