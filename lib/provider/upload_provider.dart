@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:storyapp/service/api_service.dart';
+
 import '../model/upload_response.dart';
 
 class UploadProvider extends ChangeNotifier {
@@ -68,7 +68,6 @@ class UploadProvider extends ChangeNotifier {
     List<int> newByte = bytes;
 
     do {
-      ///
       compressTall -= 0.1;
 
       final newImage = img.copyResize(

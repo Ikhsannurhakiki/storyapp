@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,20 +19,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> logOut() async {
     final authProvider = context.read<AuthProvider>();
     final scaffoldMessengerState = ScaffoldMessenger.of(context);
+    final navigator = GoRouter.of(context);
     final isLoggedIn = await authProvider.logout();
     final message = authProvider.message;
 
     scaffoldMessengerState.showSnackBar(SnackBar(content: Text(message)));
 
     if (!isLoggedIn) {
-      context.go('/login');
+      navigator.go('/login');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   trailing: const Icon(Icons.navigate_next_rounded),
                   title: const Text("Log Out"),
                   onTap: () async {
-                    final confirm = await showDialog<bool>(
+                    await showDialog<bool>(
                       context: context,
                       builder: (_) => Consumer<AuthProvider>(
                         builder: (context, provider, _) => AlertDialog(

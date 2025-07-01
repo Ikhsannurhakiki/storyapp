@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storyapp/provider/detail_provider.dart';
@@ -11,7 +10,7 @@ import '../utils/date_utils_helper.dart';
 class DetailScreen extends StatefulWidget {
   final String id;
 
-  DetailScreen({super.key, required this.id});
+  const DetailScreen({super.key, required this.id});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -78,7 +77,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
             
                       Container(
-                        color: Colors.black, // Background colo
+                        color: Colors.black,
                         child: Image.network(
                           story.photoUrl,
                           width: double.infinity,
@@ -91,7 +90,6 @@ class _DetailScreenState extends State<DetailScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Text.rich(
-                          maxLines: 2,
                           TextSpan(
                             children: [
                               TextSpan(

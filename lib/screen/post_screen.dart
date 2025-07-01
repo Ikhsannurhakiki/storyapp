@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:storyapp/provider/auth_provider.dart';
 
 import '../provider/main_provider.dart';
 import '../provider/upload_provider.dart';
@@ -38,10 +36,10 @@ class _PostScreenState extends State<PostScreen> {
                 height: 200,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppColors.lightTeal.color, // Border color
-                    width: 3, // Border width
+                    color: AppColors.lightTeal.color,
+                    width: 3,
                   ),
-                  borderRadius: BorderRadius.circular(25), // Rounded corners
+                  borderRadius: BorderRadius.circular(25),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -176,20 +174,17 @@ class _PostScreenState extends State<PostScreen> {
       );
       return;
     }
-
-    final ScaffoldMessengerState scaffoldMessengerState = ScaffoldMessenger.of(
-      context,
-    );
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     final uploadProvider = context.read<UploadProvider>();
-
     final homeProvider = context.read<MainProvider>();
+    final router = GoRouter.of(context);
+
     final imagePath = homeProvider.imagePath;
     final imageFile = homeProvider.imageFile;
     if (imagePath == null || imageFile == null) return;
 
     final fileName = imageFile.name;
     final bytes = await imageFile.readAsBytes();
-
     final newBytes = await uploadProvider.compressImage(bytes);
 
     await uploadProvider.upload(newBytes, fileName, description);
@@ -199,9 +194,10 @@ class _PostScreenState extends State<PostScreen> {
       homeProvider.setImagePath(null);
     }
 
-    scaffoldMessengerState.showSnackBar(
+    scaffoldMessenger.showSnackBar(
       SnackBar(content: Text(uploadProvider.message)),
     );
-    context.go("/home");
+
+    router.go("/home");
   }
 }

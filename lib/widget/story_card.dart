@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:storyapp/style/colors/app_colors.dart';
 import 'package:storyapp/style/typography/story_app_text_styles.dart';
 import 'package:storyapp/utils/date_utils_helper.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import '../model/story.dart';
 
@@ -47,7 +46,7 @@ class StoryCard extends StatelessWidget {
           ),
 
           Container(
-            color: Colors.black, // Background colo
+            color: Colors.black,
             child: Image.network(
               stories.photoUrl,
               width: double.infinity,

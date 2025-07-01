@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../model/user.dart';
 import '../provider/auth_provider.dart';
 import '../style/colors/app_colors.dart';
 import '../style/typography/story_app_text_styles.dart';
@@ -32,7 +31,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       emailController.text,
       passwordController.text,
     );
-    print("aaa");
   }
 
   @override
@@ -137,7 +135,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onChanged: (value) {},
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        // hint: "Drop your email here",
                         labelStyle: StoryAppTextStyles.labelLarge,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),

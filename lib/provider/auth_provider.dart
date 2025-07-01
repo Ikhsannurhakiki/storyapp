@@ -14,7 +14,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isInitialized = false;
   bool _isInitializing = false;
   bool get isInitialized => _isInitialized;
-  bool isLoggedIn = true;
+  bool isLoggedIn = false;
   User? get user => _user;
   String _message = "";
   String get message => _message;
@@ -86,7 +86,7 @@ class AuthProvider extends ChangeNotifier {
       final userState = await authRepository.register(username, email, password);
       _message = userState.message;
 
-      return !userState.error; // Return true if registration is successful
+      return !userState.error;
     } catch (e) {
       _message = "An error occurred: ${e.toString()}";
       return false;
@@ -101,7 +101,6 @@ class AuthProvider extends ChangeNotifier {
     isLoadingRegister = true;
     _user = await authRepository.getUser();
     isLoadingRegister = false;
-    _isInitialized = true;
     notifyListeners();
   }
 }

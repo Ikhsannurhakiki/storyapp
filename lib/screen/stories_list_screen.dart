@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storyapp/static/story_list_result_state.dart';
-import 'package:storyapp/widget/storyCard.dart';
+import 'package:storyapp/widget/story_card.dart';
 
-import '../model/story.dart';
-import '../provider/auth_provider.dart';
 import '../provider/story_list_provider.dart';
 import '../style/typography/story_app_text_styles.dart';
 

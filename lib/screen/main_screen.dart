@@ -73,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 onPressed: () => _onTap(0),
               ),
-              const SizedBox(width: 3), // space for FAB
+              const SizedBox(width: 3),
               IconButton(
                 icon: Icon(
                   Icons.person,
@@ -93,42 +93,47 @@ class _MainScreenState extends State<MainScreen> {
 
   _onGalleryView() async {
     final provider = context.read<MainProvider>();
+    final navigator = GoRouter.of(context);
 
     final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
     final isLinux = defaultTargetPlatform == TargetPlatform.linux;
     if (isMacOS || isLinux) return;
 
     final picker = ImagePicker();
-
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       provider.setImageFile(pickedFile);
       provider.setImagePath(pickedFile.path);
+
+      navigator.push('/home/preview');
     }
-    context.push('/home/preview');
   }
 
   _onCameraView() async {
     final provider = context.read<MainProvider>();
+    final router = GoRouter.of(context);
 
     final isAndroid = defaultTargetPlatform == TargetPlatform.android;
     final isiOS = defaultTargetPlatform == TargetPlatform.iOS;
     final isNotMobile = !(isAndroid || isiOS);
     if (isNotMobile) return;
+
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
     if (pickedFile != null) {
       provider.setImageFile(pickedFile);
       provider.setImagePath(pickedFile.path);
+      router.push('/home/preview');
     }
-    context.push('/home/preview');
   }
 
   _onCustomCameraView() async {
     final provider = context.read<MainProvider>();
     final navigator = Navigator.of(context);
-print("zaza");
+    final goRouter = GoRouter.of(context);
+
     final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
     final isLinux = defaultTargetPlatform == TargetPlatform.linux;
     if (isMacOS || isLinux) return;
@@ -136,18 +141,14 @@ print("zaza");
     final cameras = await availableCameras();
 
     final XFile? resultImageFile = await navigator.push(
-      MaterialPageRoute(
-        builder: (context) => CameraScreen(
-          cameras: cameras,
-        ),
-      ),
+      MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras)),
     );
 
     if (resultImageFile != null) {
       provider.setImageFile(resultImageFile);
       provider.setImagePath(resultImageFile.path);
+      goRouter.push('/home/preview');
     }
-    context.push('/home/preview');
   }
 
   void _showPostOptions(BuildContext context) {

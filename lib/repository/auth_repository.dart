@@ -22,7 +22,6 @@ class AuthRepository {
     );
 
     final data = jsonDecode(response.body);
-    print(password);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final loginResult = data['loginResult'];
       final user = User.fromMap(loginResult);

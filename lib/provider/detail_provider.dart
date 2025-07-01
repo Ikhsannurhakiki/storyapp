@@ -27,7 +27,6 @@ class DetailProvider extends ChangeNotifier {
       }
     } catch (e) {
       _resultState = StoryDetailErrorState(e.toString());
-      print(e.toString());
       notifyListeners();
     }
   }

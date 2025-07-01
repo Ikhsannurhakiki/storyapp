@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:storyapp/screen/main_screen.dart';
 import 'package:storyapp/screen/post_screen.dart';
 
@@ -21,14 +20,12 @@ class GoRouterService {
     initialLocation: '/',
     debugLogDiagnostics: true,
     refreshListenable: authProvider,
-    // 👈 This triggers redirect when AuthProvider changes
     redirect: (context, state) {
       final isSplash = state.matchedLocation == '/';
       final isLoggingIn = state.matchedLocation == '/login';
       final isRegistering = state.matchedLocation == '/register';
       final auth = authProvider;
 
-      // Let splash always show
       if (!auth.isInitialized && isSplash) return null;
 
       if (!auth.isLoggedIn && !isLoggingIn && !isRegistering && !isSplash) {

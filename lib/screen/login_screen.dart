@@ -25,20 +25,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> login() async {
     final authProvider = context.read<AuthProvider>();
     final scaffoldMessengerState = ScaffoldMessenger.of(context);
-    print(passwordController.text.trim());
+    final navigator = GoRouter.of(context);
     final isLoggedIn = await authProvider.login(
       emailController.text,
       passwordController.text,
     );
 
     final message = authProvider.message;
-    print(message);
     scaffoldMessengerState.showSnackBar(
       SnackBar(content: Text(message)),
     );
 
     if (isLoggedIn) {
-      context.go('/home');
+      navigator.go('/home');
     }
   }
 
@@ -97,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             labelText: 'Email',
-                            // hint: "Drop your email here",
                             labelStyle: StoryAppTextStyles.labelLarge,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(

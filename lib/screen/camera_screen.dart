@@ -33,7 +33,7 @@ class _CameraScreenState extends State<CameraScreen>
     try {
       await cameraController.initialize();
     } on CameraException catch (e) {
-      print('Error initializing camera: $e');
+      throw Exception(e);
     }
 
     if (mounted) {
@@ -111,7 +111,7 @@ class _CameraScreenState extends State<CameraScreen>
   Widget _actionWidget() {
     return FloatingActionButton(
       heroTag: "take-picture",
-      tooltip: "Ambil Gambar",
+      tooltip: "take picture",
       onPressed: () => _onCameraButtonClick(),
       child: const Icon(Icons.camera_alt),
     );
