@@ -1,21 +1,14 @@
-<<<<<<< HEAD
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-=======
->>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
 import 'package:go_router/go_router.dart';
 import 'package:storyapp/screen/main_screen.dart';
 import 'package:storyapp/screen/post_screen.dart';
 
-<<<<<<< HEAD
 import '../dialog/bottom_sheet_page.dart';
 import '../dialog/log_out_confirmation_dialog.dart';
 import '../dialog/post_options_sheet.dart';
 import '../provider/auth_provider.dart';
 import '../screen/camera_screen.dart';
-=======
-import '../provider/auth_provider.dart';
->>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
 import '../screen/detail_screen.dart';
 import '../screen/image_preview_screen.dart';
 import '../screen/login_screen.dart';
@@ -79,25 +72,18 @@ class GoRouterService {
         builder: (context, state) => const PostScreen(),
       ),
       GoRoute(
-<<<<<<< HEAD
         path: '/post-options',
         pageBuilder: (context, state) {
-          return BottomSheetPage(
-            child: PostOptionsSheet(),
-          );
+          return BottomSheetPage(child: PostOptionsSheet());
         },
       ),
       GoRoute(
         path: '/logout-confirmation',
         pageBuilder: (context, state) {
-          return BottomSheetPage(
-            child: LogoutConfirmDialog(),
-          );
+          return BottomSheetPage(child: LogoutConfirmDialog());
         },
       ),
       GoRoute(
-=======
->>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
         path: '/home',
         name: 'home',
         builder: (context, state) => const MainScreen(),
@@ -117,19 +103,13 @@ class GoRouterService {
           ),
         ],
       ),
-<<<<<<< HEAD
       GoRoute(
         path: '/camera',
         pageBuilder: (context, state) {
           final cameras = state.extra as List<CameraDescription>;
-          return MaterialPage(
-            child: CameraScreen(cameras: cameras),
-          );
+          return MaterialPage(child: CameraScreen(cameras: cameras));
         },
       ),
-
-=======
->>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
     ],
   );
 }

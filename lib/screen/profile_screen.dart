@@ -61,61 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: const Icon(Icons.logout),
                   trailing: const Icon(Icons.navigate_next_rounded),
                   title: const Text("Log Out"),
-<<<<<<< HEAD
                   onTap: () => context.push('/logout-confirmation')
-=======
-                  onTap: () async {
-                    await showDialog<bool>(
-                      context: context,
-                      builder: (_) => Consumer<AuthProvider>(
-                        builder: (context, provider, _) => AlertDialog(
-                          title: const Text("Log Out"),
-                          content: const Text(
-                            "Are you sure you want to log out?",
-                          ),
-                          actions: [
-                            Column(
-                              children: [
-                                TextButton(
-                                  onPressed: () => provider.isLoadingLogout? null :   Navigator.pop(context, false),
-                                  child: const Text("Cancel"),
-                                ),
-                                TextButton(
-                                  onPressed: provider.isLoadingLogout? null : logOut,
-                                  child: provider.isLoadingLogout
-                                      ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        "Logging Out...",
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                    ],
-                                  )
-                                      : const Text(
-                                    "Log Out",
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ),
-                              ],
-                            ),
 
-                          ],
-                        ),
-                      ),
-                    );
-                  },
->>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
                 ),
               ],
             ),
