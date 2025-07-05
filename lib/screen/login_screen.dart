@@ -37,7 +37,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (isLoggedIn) {
+<<<<<<< HEAD
       goRouter.go('/home');
+=======
+      navigator.go('/home');
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
     }
   }
 

@@ -3,10 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+<<<<<<< HEAD
 import 'package:storyapp/main.dart';
 
 import '../provider/main_provider.dart';
 import '../provider/story_list_provider.dart';
+=======
+
+import '../provider/main_provider.dart';
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
 import '../provider/upload_provider.dart';
 import '../style/colors/app_colors.dart';
 
@@ -178,12 +183,20 @@ class _PostScreenState extends State<PostScreen> {
     }
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final uploadProvider = context.read<UploadProvider>();
+<<<<<<< HEAD
     final mainProvider = context.read<MainProvider>();
     final storyListProvider = context.read<StoryListProvider>();
     final router = GoRouter.of(context);
 
     final imagePath = mainProvider.imagePath;
     final imageFile = mainProvider.imageFile;
+=======
+    final homeProvider = context.read<MainProvider>();
+    final router = GoRouter.of(context);
+
+    final imagePath = homeProvider.imagePath;
+    final imageFile = homeProvider.imageFile;
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
     if (imagePath == null || imageFile == null) return;
 
     final fileName = imageFile.name;
@@ -191,6 +204,7 @@ class _PostScreenState extends State<PostScreen> {
     final newBytes = await uploadProvider.compressImage(bytes);
 
     await uploadProvider.upload(newBytes, fileName, description);
+<<<<<<< HEAD
     if (!mounted) return;
 
     if (uploadProvider.uploadResponse != null) {
@@ -198,11 +212,22 @@ class _PostScreenState extends State<PostScreen> {
       mainProvider.setImagePath(null);
       mainProvider.setTabIndex(0);
       storyListProvider.refresh();
+=======
+
+    if (uploadProvider.uploadResponse != null) {
+      homeProvider.setImageFile(null);
+      homeProvider.setImagePath(null);
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
     }
 
     scaffoldMessenger.showSnackBar(
       SnackBar(content: Text(uploadProvider.message)),
     );
+<<<<<<< HEAD
     router.go('/home');
+=======
+
+    router.go("/home");
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
   }
 }

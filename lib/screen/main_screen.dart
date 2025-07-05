@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     const ProfileScreen(),
   ];
 
+<<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -44,6 +46,34 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: const Icon(Icons.add, size: 30),
         ),
+=======
+  int _currentIndex = 0;
+
+  void _onTap(int index) {
+    setState(() => _currentIndex = index);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      extendBody: true,
+      body: IndexedStack(index: _currentIndex, children: _screens),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showPostOptions(context),
+        backgroundColor: isDarkMode
+            ? AppColors.darkTeal.color
+            : AppColors.lightTeal.color,
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+          side: BorderSide(
+            color: isDarkMode ? Colors.black : Colors.white,
+            width: 3,
+          ),
+        ),
+        child: const Icon(Icons.add, size: 25),
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
@@ -51,21 +81,33 @@ class _MainScreenState extends State<MainScreen> {
           topRight: Radius.circular(20),
         ),
         child: BottomAppBar(
+<<<<<<< HEAD
           height: 70,
           padding: EdgeInsets.zero,
+=======
+          height: 80,
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
+<<<<<<< HEAD
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 icon: Icon(
                   Icons.home,
                   color: provider.tabIndex == 0
+=======
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  Icons.home,
+                  color: _currentIndex == 0
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
                       ? AppColors.navyBlue.color
                       : Colors.grey,
                   size: 30,
                 ),
+<<<<<<< HEAD
                 onPressed: () => provider.setTabIndex(0),
               ),
               const SizedBox(width: 3),
@@ -74,11 +116,24 @@ class _MainScreenState extends State<MainScreen> {
                 icon: Icon(
                   Icons.person,
                   color: provider.tabIndex == 1
+=======
+                onPressed: () => _onTap(0),
+              ),
+              const SizedBox(width: 3),
+              IconButton(
+                icon: Icon(
+                  Icons.person,
+                  color: _currentIndex == 1
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
                       ? AppColors.navyBlue.color
                       : Colors.grey,
                   size: 30,
                 ),
+<<<<<<< HEAD
                 onPressed: () => provider.setTabIndex(1),
+=======
+                onPressed: () => _onTap(1),
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
               ),
             ],
           ),
@@ -86,4 +141,120 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+<<<<<<< HEAD
+=======
+
+  _onGalleryView() async {
+    final provider = context.read<MainProvider>();
+    final navigator = GoRouter.of(context);
+
+    final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
+    final isLinux = defaultTargetPlatform == TargetPlatform.linux;
+    if (isMacOS || isLinux) return;
+
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+
+      navigator.push('/home/preview');
+    }
+  }
+
+  _onCameraView() async {
+    final provider = context.read<MainProvider>();
+    final router = GoRouter.of(context);
+
+    final isAndroid = defaultTargetPlatform == TargetPlatform.android;
+    final isiOS = defaultTargetPlatform == TargetPlatform.iOS;
+    final isNotMobile = !(isAndroid || isiOS);
+    if (isNotMobile) return;
+
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+      router.push('/home/preview');
+    }
+  }
+
+  _onCustomCameraView() async {
+    final provider = context.read<MainProvider>();
+    final navigator = Navigator.of(context);
+    final goRouter = GoRouter.of(context);
+
+    final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
+    final isLinux = defaultTargetPlatform == TargetPlatform.linux;
+    if (isMacOS || isLinux) return;
+
+    final cameras = await availableCameras();
+
+    final XFile? resultImageFile = await navigator.push(
+      MaterialPageRoute(builder: (context) => CameraScreen(cameras: cameras)),
+    );
+
+    if (resultImageFile != null) {
+      provider.setImageFile(resultImageFile);
+      provider.setImagePath(resultImageFile.path);
+      goRouter.push('/home/preview');
+    }
+  }
+
+  void _showPostOptions(BuildContext context) {
+    final provider = context.read<MainProvider>();
+    provider.clearImagePath();
+    provider.clearImageFile();
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Gallery'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _onGalleryView();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _onCameraView();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_enhance_rounded),
+                  title: const Text('Custom Camera'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _onCustomCameraView();
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.close),
+                  title: const Text('Cancel'),
+                  onTap: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
 }

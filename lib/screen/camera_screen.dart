@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:go_router/go_router.dart';
+import
+'package:go_router/go_router.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({

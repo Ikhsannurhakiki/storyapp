@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'package:cached_network_image/cached_network_image.dart';
+=======
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
 import 'package:flutter/material.dart';
 import 'package:storyapp/style/colors/app_colors.dart';
 import 'package:storyapp/style/typography/story_app_text_styles.dart';
@@ -27,9 +30,13 @@ class StoryCard extends StatelessWidget {
                   radius: 18,
                   backgroundColor: AppColors.warmPeach.color,
                   child: Text(
+<<<<<<< HEAD
                     stories.name.isNotEmpty
                         ? stories.name[0].toUpperCase()
                         : '?',
+=======
+                    stories.name.isNotEmpty ? stories.name[0].toUpperCase() : '?',
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
                     style: TextStyle(
                       color: AppColors.darkTeal.color,
                       fontSize: 24,
@@ -38,7 +45,14 @@ class StoryCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
+<<<<<<< HEAD
                 Text(stories.name, style: StoryAppTextStyles.bodyLargeBold),
+=======
+                Text(
+                  stories.name,
+                  style: StoryAppTextStyles.bodyLargeBold,
+                ),
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
                 const Spacer(),
                 const Icon(Icons.more_vert),
               ],
@@ -47,6 +61,7 @@ class StoryCard extends StatelessWidget {
 
           Container(
             color: Colors.black,
+<<<<<<< HEAD
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(16)),
               child: CachedNetworkImage(
@@ -58,6 +73,13 @@ class StoryCard extends StatelessWidget {
                     Center(child: CircularProgressIndicator(color: AppColors.lightTeal.color,)),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
+=======
+            child: Image.network(
+              stories.photoUrl,
+              width: double.infinity,
+              height: 300,
+              fit: BoxFit.scaleDown,
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
             ),
           ),
 

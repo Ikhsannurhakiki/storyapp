@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'package:cached_network_image/cached_network_image.dart';
+=======
+>>>>>>> c91276863fb05f4c01eac9f46b8a603fe1c3067e
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storyapp/provider/detail_provider.dart';
