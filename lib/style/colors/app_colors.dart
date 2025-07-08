@@ -9,7 +9,7 @@ enum AppColors {
   darkText,
   skinTone,
   darkTeal,
-  softCream
+  softCream,
 }
 
 extension AppColorExtension on AppColors {

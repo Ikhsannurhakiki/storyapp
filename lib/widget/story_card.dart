@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:storyapp/style/colors/app_colors.dart';
@@ -56,8 +55,11 @@ class StoryCard extends StatelessWidget {
                 height: 300,
                 fit: BoxFit.scaleDown,
                 imageUrl: stories.photoUrl,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator(color: AppColors.lightTeal.color,)),
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.lightTeal.color,
+                  ),
+                ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),

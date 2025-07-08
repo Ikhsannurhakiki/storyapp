@@ -19,7 +19,7 @@ class PostOptionsSheet extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(16  ),
+        padding: const EdgeInsets.all(16),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 300),
           child: Wrap(
@@ -30,7 +30,7 @@ class PostOptionsSheet extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              Divider(height: 30, thickness: 2,),
+              Divider(height: 30, thickness: 2),
               ListTile(
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Gallery'),

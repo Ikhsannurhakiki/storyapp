@@ -77,13 +77,16 @@ class AuthProvider extends ChangeNotifier {
     return isLoggedIn;
   }
 
-
   Future<bool> register(String username, String email, String password) async {
     isLoadingRegister = true;
     notifyListeners();
 
     try {
-      final userState = await authRepository.register(username, email, password);
+      final userState = await authRepository.register(
+        username,
+        email,
+        password,
+      );
       _message = userState.message;
 
       return !userState.error;
@@ -95,7 +98,6 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   Future<void> getUser() async {
     isLoadingRegister = true;

@@ -32,9 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     final message = authProvider.message;
-    scaffoldMessengerState.showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    scaffoldMessengerState.showSnackBar(SnackBar(content: Text(message)));
 
     if (isLoggedIn) {
       goRouter.go('/home');

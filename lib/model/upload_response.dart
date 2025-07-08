@@ -4,10 +4,7 @@ class UploadResponse {
   final bool error;
   final String message;
 
-  UploadResponse({
-    required this.error,
-    required this.message,
-  });
+  UploadResponse({required this.error, required this.message});
 
   factory UploadResponse.fromMap(Map<String, dynamic> map) {
     return UploadResponse(

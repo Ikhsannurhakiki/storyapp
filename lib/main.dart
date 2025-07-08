@@ -39,27 +39,16 @@ void main() async {
         ChangeNotifierProvider.value(value: profileProvider),
         Provider.value(value: sharedPrefService),
         Provider.value(value: routerService),
-        Provider(
-          create: (_) => ApiServices(authProvider.user?.token),
+        Provider(create: (_) => ApiServices(authProvider.user?.token)),
+        ChangeNotifierProvider(
+          create: (context) => StoryListProvider(context.read<ApiServices>()),
+        ),
+        ChangeNotifierProvider(create: (_) => MainProvider()),
+        ChangeNotifierProvider(
+          create: (context) => UploadProvider(context.read<ApiServices>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => StoryListProvider(
-            context.read<ApiServices>(),
-          ),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => MainProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => UploadProvider(
-            context.read<ApiServices>(),
-          ),
-        ),
-        ChangeNotifierProvider(
-          create: (context) =>
-              DetailProvider(
-                context.read<ApiServices>(),
-              ),
+          create: (context) => DetailProvider(context.read<ApiServices>()),
         ),
       ],
       child: const MyApp(),

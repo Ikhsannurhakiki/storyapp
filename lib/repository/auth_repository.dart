@@ -31,19 +31,16 @@ class AuthRepository {
     } else {
       final error = jsonDecode(response.body);
       throw Exception(error['message'] ?? 'Failed to login');
-
     }
-
   }
 
   Future<bool> saveUser(User user) async {
     return _pref.setString(userKey, user.toJson());
   }
 
-  Future<bool> deleteUser() async{
+  Future<bool> deleteUser() async {
     return _pref.remove(userKey);
   }
-
 
   Future<User?> getUser() async {
     await Future.delayed(const Duration(seconds: 2));
@@ -86,5 +83,4 @@ class AuthRepository {
   }
 
   Future<String?> getToken() => getUser().then((user) => user?.token);
-
 }

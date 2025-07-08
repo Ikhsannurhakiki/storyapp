@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../service/shared_preferences_service.dart';
 
-class ProfileProvider extends ChangeNotifier{
+class ProfileProvider extends ChangeNotifier {
   final SharedPreferencesService _service;
 
   ProfileProvider(this._service);
@@ -29,5 +29,4 @@ class ProfileProvider extends ChangeNotifier{
     }
     notifyListeners();
   }
-
 }

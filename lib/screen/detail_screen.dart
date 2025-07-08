@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,8 +39,10 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Consumer<DetailProvider>(
               builder: (context, value, child) {
                 return switch (value.resultState) {
-                  StoryDetailLoadingState() =>  Center(
-                    child: CircularProgressIndicator(color: AppColors.lightTeal.color,),
+                  StoryDetailLoadingState() => Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.lightTeal.color,
+                    ),
                   ),
                   StoryDetailLoadedState(story: var story) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,24 +78,27 @@ class _DetailScreenState extends State<DetailScreen> {
                           ],
                         ),
                       ),
-            
+
                       Container(
                         color: Colors.black,
-                        child:
-                        ClipRRect(
+                        child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(16)),
                           child: CachedNetworkImage(
                             width: double.infinity,
                             height: 300,
                             fit: BoxFit.scaleDown,
                             imageUrl: story.photoUrl,
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator(color: AppColors.lightTeal.color,)),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.lightTeal.color,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
                         ),
                       ),
-            
+
                       const SizedBox(height: 12),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -115,7 +119,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       const SizedBox(height: 6),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Text(DateUtilsHelper.getTimeAgo(story.createdAt)),
+                        child: Text(
+                          DateUtilsHelper.getTimeAgo(story.createdAt),
+                        ),
                       ),
                       const SizedBox(height: 12),
                     ],

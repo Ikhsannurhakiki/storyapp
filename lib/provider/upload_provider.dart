@@ -13,16 +13,23 @@ class UploadProvider extends ChangeNotifier {
   String message = "";
   UploadResponse? uploadResponse;
 
-  Future<void> upload(List<int> bytes,
-      String fileName,
-      String description,) async {
+  Future<void> upload(
+    List<int> bytes,
+    String fileName,
+    String description,
+  ) async {
     try {
       message = "";
       uploadResponse = null;
       isUploading = true;
       notifyListeners();
-      uploadResponse =
-      await apiServices.uploadDocument(bytes, fileName, description,0,0);
+      uploadResponse = await apiServices.uploadDocument(
+        bytes,
+        fileName,
+        description,
+        0,
+        0,
+      );
       message = uploadResponse?.message ?? "success";
       isUploading = false;
       notifyListeners();
@@ -45,10 +52,7 @@ class UploadProvider extends ChangeNotifier {
     do {
       compressQuality -= 10;
 
-      newByte = img.encodeJpg(
-        image,
-        quality: compressQuality,
-      );
+      newByte = img.encodeJpg(image, quality: compressQuality);
 
       length = newByte.length;
     } while (length > 1000000);
@@ -84,5 +88,4 @@ class UploadProvider extends ChangeNotifier {
 
     return newByte;
   }
-
 }

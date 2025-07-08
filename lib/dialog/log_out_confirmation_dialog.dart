@@ -36,7 +36,7 @@ class LogoutConfirmDialog extends StatelessWidget {
               "Log Out",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Divider(height: 30, thickness: 2,),
+            Divider(height: 30, thickness: 2),
             const SizedBox(height: 12),
             const Text("Are you sure you want to log out?"),
             const SizedBox(height: 24),
@@ -56,28 +56,25 @@ class LogoutConfirmDialog extends StatelessWidget {
                     },
               child: provider.isLoadingLogout
                   ? Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.red,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    "Logging Out...",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ],
-              )
-                  : const Text(
-                      "Log Out",
-                      style: TextStyle(color: Colors.red),
-                    ),
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.red,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          "Logging Out...",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    )
+                  : const Text("Log Out", style: TextStyle(color: Colors.red)),
             ),
           ],
         ),

@@ -22,15 +22,14 @@ class User {
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is User &&
-              runtimeType == other.runtimeType &&
-              userId == other.userId &&
-              name == other.name &&
-              token == other.token;
+      other is User &&
+          runtimeType == other.runtimeType &&
+          userId == other.userId &&
+          name == other.name &&
+          token == other.token;
 
   @override
   int get hashCode => Object.hash(userId, name, token);

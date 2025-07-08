@@ -61,8 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: const Icon(Icons.logout),
                   trailing: const Icon(Icons.navigate_next_rounded),
                   title: const Text("Log Out"),
-                  onTap: () => context.push('/logout-confirmation')
-
+                  onTap: () => context.push('/logout-confirmation'),
                 ),
               ],
             ),

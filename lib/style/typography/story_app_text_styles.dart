@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class StoryAppTextStyles {
   static const String _fontFamily = 'IBMPlexSansCondensed';
 
-  static const TextStyle _commonStyle = TextStyle(
-    fontFamily: _fontFamily,
-  );
+  static const TextStyle _commonStyle = TextStyle(fontFamily: _fontFamily);
 
   static TextStyle displayLarge = _commonStyle.copyWith(
     fontSize: 57,

@@ -28,7 +28,7 @@ class ImagePreviewScreen extends StatelessWidget {
               child: OutlinedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                 onPressed: () => context.pop(),
-                child:  Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -51,7 +51,7 @@ class ImagePreviewScreen extends StatelessWidget {
                   backgroundColor: AppColors.lightTeal.color,
                 ),
                 onPressed: () => context.push("/home/post"),
-                child:  Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

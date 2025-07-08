@@ -1,4 +1,3 @@
-
 class Story {
   final String id;
   final String name;
@@ -30,4 +29,3 @@ class Story {
     );
   }
 }
-
