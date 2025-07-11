@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:storyapp/screen/main_screen.dart';
 import 'package:storyapp/screen/post_screen.dart';
 
@@ -12,6 +15,7 @@ import '../screen/camera_screen.dart';
 import '../screen/detail_screen.dart';
 import '../screen/image_preview_screen.dart';
 import '../screen/login_screen.dart';
+import '../screen/map_screens.dart';
 import '../screen/register_screen.dart';
 import '../screen/splash_screen.dart';
 import '../screen/stories_list_screen.dart';
@@ -95,8 +99,9 @@ class GoRouterService {
               GoRoute(
                 path: 'detail/:id',
                 builder: (context, state) {
-                  final id = state.pathParameters['id'];
-                  return DetailScreen(id: id!);
+                  final id = state.pathParameters['id']!;
+                  final latLng = state.extra as LatLng?;
+                  return DetailScreen(id: id, latLng: latLng);
                 },
               ),
             ],
@@ -109,6 +114,12 @@ class GoRouterService {
           final cameras = state.extra as List<CameraDescription>;
           return MaterialPage(child: CameraScreen(cameras: cameras));
         },
+      ),
+      GoRoute(
+        path: '/map',
+        name: "map",
+        builder: (context, state) =>
+            const MapScreen(),
       ),
     ],
   );

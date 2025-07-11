@@ -17,6 +17,8 @@ class UploadProvider extends ChangeNotifier {
     List<int> bytes,
     String fileName,
     String description,
+    double? lat,
+    double? lon,
   ) async {
     try {
       message = "";
@@ -27,8 +29,8 @@ class UploadProvider extends ChangeNotifier {
         bytes,
         fileName,
         description,
-        0,
-        0,
+        lat,
+        lon,
       );
       message = uploadResponse?.message ?? "success";
       isUploading = false;

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storyapp/provider/auth_provider.dart';
 import 'package:storyapp/provider/detail_provider.dart';
 import 'package:storyapp/provider/main_provider.dart';
+import 'package:storyapp/provider/map_provider.dart';
 import 'package:storyapp/provider/profile_provider.dart';
 import 'package:storyapp/provider/story_list_provider.dart';
 import 'package:storyapp/provider/upload_provider.dart';
@@ -50,6 +51,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => DetailProvider(context.read<ApiServices>()),
         ),
+        ChangeNotifierProvider(create: (_) => MapProvider()),
       ],
       child: const MyApp(),
     ),
@@ -74,3 +76,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

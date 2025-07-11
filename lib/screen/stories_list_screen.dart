@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:storyapp/static/story_list_result_state.dart';
 import 'package:storyapp/widget/story_card.dart';
@@ -58,7 +59,8 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
                         stories: stories[index],
                         onTap: () => context.push(
                           '/home/storylist/detail/${stories[index].id}',
-                        ),
+                          extra: LatLng(stories[index].lat!, stories[index].lon!),
+                        )
                       );
                     } else {
                       return const Padding(

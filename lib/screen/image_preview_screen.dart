@@ -21,7 +21,7 @@ class ImagePreviewScreen extends StatelessWidget {
         child: Image.file(File(imagePath.toString()), fit: BoxFit.contain),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
         child: Row(
           children: [
             Expanded(

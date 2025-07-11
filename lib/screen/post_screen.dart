@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:storyapp/main.dart';
+import 'package:storyapp/provider/map_provider.dart';
 
 import '../provider/main_provider.dart';
 import '../provider/story_list_provider.dart';
-
 import '../provider/upload_provider.dart';
 import '../style/colors/app_colors.dart';
 
@@ -23,66 +22,114 @@ class _PostScreenState extends State<PostScreen> {
   bool isFull = false;
 
   @override
+  void initState() {
+    super.initState();
+    // final mapProvider = context.read<MapProvider>();
+    // mapProvider.resetPlacemark();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final imagePath = context.read<MainProvider>().imagePath;
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 150,
-                height: 200,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.lightTeal.color,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.file(
-                    width: 150,
-                    height: 200,
-                    File(imagePath.toString()),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-              SizedBox(height: 50),
-              TextField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true,
-                ),
-                maxLines: isFull ? 15 : 5,
-                minLines: isFull ? 10 : 4,
-                maxLength: 400,
-                keyboardType: TextInputType.multiline,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(isFull ? "Minimize" : "Maximize"),
-                  IconButton(
-                    icon: Icon(
-                      isFull ? Icons.fullscreen_exit : Icons.fullscreen,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(height: 30),
+                    Container(
+                      width: 150,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.lightTeal.color,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.file(
+                          width: 150,
+                          height: 200,
+                          File(imagePath.toString()),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        isFull = !isFull;
-                      });
-                    },
-                  ),
-                ],
+                    SizedBox(height: 30),
+                    TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        border: OutlineInputBorder(),
+                        alignLabelWithHint: true,
+                      ),
+                      maxLines: isFull ? 15 : 5,
+                      minLines: isFull ? 10 : 4,
+                      maxLength: 400,
+                      keyboardType: TextInputType.multiline,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(isFull ? "Minimize" : "Maximize"),
+                        IconButton(
+                          icon: Icon(
+                            isFull ? Icons.fullscreen_exit : Icons.fullscreen,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isFull = !isFull;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    // SizedBox(
+                    //     height: 250,
+                    //     width: double.infinity,
+                    //     child: MapScreen(lat: -6.8957473, long: 107.6337669)
+                    // ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListTile(
+                  leading: const Icon(Icons.add_location_alt_outlined),
+                  trailing: const Icon(Icons.navigate_next_rounded),
+                  title: const Text("Location"),
+                  onTap: () {
+                    context.read<MapProvider>().setIsMapPicker(true);
+                    context.push('/map');
+                  },
+                ),
+              ),
+              Consumer<MapProvider>(
+                builder: (context, provider, _) {
+                  final info = provider.placemark;
+                  return info != null
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                          child: Text(
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            "${info.street!}, ${info.subLocality!}, ${info.locality!}, ${info.postalCode!}, ${info.country}",
+                          ),
+                        )
+                      : Container();
+                },
               ),
             ],
           ),
@@ -91,7 +138,7 @@ class _PostScreenState extends State<PostScreen> {
       bottomNavigationBar: Consumer<UploadProvider>(
         builder: (context, provider, _) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
             child: Row(
               children: [
                 Expanded(
@@ -169,8 +216,30 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   _onUpload() async {
-    final description = _controller.text.trim();
+    final mapProvider = context.read<MapProvider>();
+    final userInput = _controller.text.trim();
+    final placemark = mapProvider.placemark;
+    double? lat;
+    double? lon;
 
+    final latLng = mapProvider.latLng;
+    if (latLng != null) {
+      lat = latLng.latitude;
+      lon = latLng.longitude;
+    }
+
+
+    final description = userInput;
+    // // = placemark == null
+    // //     ? userInput
+    // // : '$userInput \n ${placemark.street ?? ''}, '
+    // // '${placemark.subLocality ?? ''}, '
+    // // '${placemark.locality ?? ''}, '
+    // // '${placemark.subAdministrativeArea ?? ''}, '
+    // // '${placemark.administrativeArea ?? ''}, '
+    // // '${placemark.postalCode ?? ''}, '
+    // // '${placemark.country ?? ''}';
+    //
     if (description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Description cannot be empty")),
@@ -192,7 +261,7 @@ class _PostScreenState extends State<PostScreen> {
     final bytes = await imageFile.readAsBytes();
     final newBytes = await uploadProvider.compressImage(bytes);
 
-    await uploadProvider.upload(newBytes, fileName, description);
+    await uploadProvider.upload(newBytes, fileName, description, lat, lon);
 
     if (!mounted) return;
 
@@ -204,8 +273,10 @@ class _PostScreenState extends State<PostScreen> {
     }
 
     scaffoldMessenger.showSnackBar(
-      SnackBar(content: Text(uploadProvider.message)),
-    );
+      SnackBar(content: Text(mapProvider.latLng.toString()),
+    ));
+    mapProvider.resetPlacemark();
+    mapProvider.resetLatLng();
     router.go('/home');
   }
 }

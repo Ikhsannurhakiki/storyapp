@@ -102,6 +102,8 @@ class ApiServices {
     };
 
     request.files.add(multiPartFile);
+    if (lat != null) request.fields['lat'] = lat.toString();
+    if (lon != null) request.fields['lon'] = lon.toString();
     request.fields.addAll(fields);
     request.headers.addAll(headers);
 
