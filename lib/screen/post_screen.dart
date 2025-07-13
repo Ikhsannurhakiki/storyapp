@@ -206,7 +206,6 @@ class _PostScreenState extends State<PostScreen> {
   _onUpload() async {
     final mapProvider = context.read<MapProvider>();
     final userInput = _controller.text.trim();
-    final placemark = mapProvider.placemark;
     double? lat;
     double? lon;
 
@@ -223,7 +222,6 @@ class _PostScreenState extends State<PostScreen> {
       );
       return;
     }
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
     final uploadProvider = context.read<UploadProvider>();
 
     final mainProvider = context.read<MainProvider>();
@@ -248,10 +246,6 @@ class _PostScreenState extends State<PostScreen> {
       mainProvider.setTabIndex(0);
       storyListProvider.refresh();
     }
-
-    scaffoldMessenger.showSnackBar(
-      SnackBar(content: Text(mapProvider.latLng.toString())),
-    );
     mapProvider.resetPlacemark();
     mapProvider.resetLatLng();
     router.go('/home');

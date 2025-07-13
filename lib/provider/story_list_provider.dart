@@ -22,48 +22,62 @@ class StoryListProvider extends ChangeNotifier {
       _resultState = StoryListLoadingState();
       notifyListeners();
 
-      final result = await _apiServices.getStoryList(page: page);
+      final result = await _apiServices.getStoryList(
+        page: 1,
+        size: 10,
+        location: 0,
+      );
+
       if (result.error) {
         _resultState = StoryListErrorState(result.message);
-        notifyListeners();
       } else {
-        stories.addAll(result.listStory);
+        stories = result.listStory;
         _resultState = StoryListLoadedState(stories);
-        notifyListeners();
+        page = 2;
+        hasMore = result.listStory.length >= 10;
       }
-    } on Exception catch (e) {
+    } catch (e) {
       _resultState = StoryListErrorState(e.toString());
-      notifyListeners();
     }
+    notifyListeners();
   }
+
 
   Future<void> fetchMore() async {
     if (isLoading || !hasMore) return;
+
     isLoading = true;
     notifyListeners();
 
     try {
-      final result = await _apiServices.getStoryList(page: page);
+      final result = await _apiServices.getStoryList(
+        page: page,
+        size: 10,
+        location: 0,
+      );
+
       if (result.listStory.isEmpty) {
         hasMore = false;
       } else {
         stories.addAll(result.listStory);
         _resultState = StoryListLoadedState(stories);
         page++;
+        hasMore = result.listStory.length >= 10;
       }
-    } on Exception catch (e) {
+    } catch (e) {
       _resultState = StoryListErrorState(e.toString());
-      notifyListeners();
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
+
   Future<void> refresh() async {
     page = 1;
     hasMore = true;
     stories.clear();
-    await fetchMore();
+    await fetchStoryList();
   }
+
 }

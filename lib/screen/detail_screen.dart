@@ -26,6 +26,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Placemark? placemark;
   final Set<Marker> markers = {};
   late LatLng _position;
+  bool showCard = true;
 
   late GoogleMapController mapController;
 
@@ -237,6 +238,87 @@ class _DetailScreenState extends State<DetailScreen> {
                             DateUtilsHelper.getTimeAgo(story.createdAt),
                           ),
                         ),
+                        const SizedBox(height: 16),
+                        story.lat != null && story.lon != null
+                            ? Container(
+                          color: AppColors.navyBlue.color,
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 12
+                                  ),
+                                  child: SizedBox(
+                                    height: 300,
+                                    child: Stack(
+                                      children: [
+                                        GoogleMap(
+                                          initialCameraPosition: CameraPosition(
+                                            target: LatLng(story.lat!, story.lon!),
+                                            zoom: 16,
+                                          ),
+                                          markers: {
+                                            Marker(
+                                              markerId: const MarkerId(
+                                                "current_location",
+                                              ),
+                                              position: LatLng(
+                                                story.lat!,
+                                                story.lon!,
+                                              ),
+                                              onTap: () {
+                                                setState(() {
+                                                  showCard = !showCard;
+                                                });
+                                              },
+                                            ),
+                                          },
+                                          myLocationEnabled: true,
+                                          myLocationButtonEnabled: false,
+                                          zoomControlsEnabled: false,
+                                        ),
+                                        if (placemark != null && showCard == true)
+                                          Positioned(
+                                            bottom: 16,
+                                            left: 16,
+                                            right: 16,
+                                            child: Card(
+                                              elevation: 6,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(12),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(16),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      placemark!.street ?? "Unknown street",
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4),
+                                                    Text(
+                                                      '${placemark!.subLocality ?? ""}, '
+                                                          '${placemark!.locality ?? ""}, '
+                                                          '${placemark!.subAdministrativeArea ?? ""}, '
+                                                          '${placemark!.administrativeArea ?? ""}, '
+                                                          '${placemark!.postalCode ?? ""}, '
+                                                          '${placemark!.country ?? ""}',
+                                                    ),
+                                                    SizedBox(height: 16),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            )
+                            : SizedBox.shrink(),
                         const SizedBox(height: 12),
                       ],
                     ),
