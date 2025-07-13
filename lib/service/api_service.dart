@@ -57,8 +57,6 @@ class ApiServices {
         'Content-Type': 'application/json',
       },
     );
-    print(response.body);
-    print(token);
     if (response.statusCode == 200) {
       return StoryListResponse.fromJson(jsonDecode(response.body));
     } else {

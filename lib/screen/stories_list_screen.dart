@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:storyapp/static/story_list_result_state.dart';
 import 'package:storyapp/widget/story_card.dart';
 
+import '../flavor_config.dart';
 import '../provider/story_list_provider.dart';
 import '../style/typography/story_app_text_styles.dart';
 
@@ -29,7 +30,8 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Story App", style: StoryAppTextStyles.headlineMedium),
+        title: Text("Story App ${FlavorConfig.instance.values.titleApp}", style: StoryAppTextStyles.titleLarge),
+        backgroundColor:FlavorConfig.instance.color,
       ),
       body: Consumer<StoryListProvider>(
         builder: (context, provider, _) {

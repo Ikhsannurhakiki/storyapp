@@ -73,14 +73,13 @@ class _MapScreenState extends State<MapScreen> {
 
       latLng = LatLng(locationData.latitude!, locationData.longitude!);
 
-      // Optionally fetch placemark for current location
       final placemarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
       if (placemarks.isNotEmpty) {
         placemark = placemarks.first;
-        dataProvider.setPlacemark(placemark); // save to provider
+        dataProvider.setPlacemark(placemark);
       }
 
-      dataProvider.setLatLng(latLng); // save to provider
+      dataProvider.setLatLng(latLng);
     }
 
     setState(() {
@@ -126,7 +125,6 @@ class _MapScreenState extends State<MapScreen> {
 
       _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
     } catch (e) {
-      debugPrint("❌ Geocoding error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to fetch location details.")),
       );

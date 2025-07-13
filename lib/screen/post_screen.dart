@@ -22,13 +22,6 @@ class _PostScreenState extends State<PostScreen> {
   bool isFull = false;
 
   @override
-  void initState() {
-    super.initState();
-    // final mapProvider = context.read<MapProvider>();
-    // mapProvider.resetPlacemark();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final imagePath = context.read<MainProvider>().imagePath;
     return Scaffold(
@@ -96,11 +89,6 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       ],
                     ),
-                    // SizedBox(
-                    //     height: 250,
-                    //     width: double.infinity,
-                    //     child: MapScreen(lat: -6.8957473, long: 107.6337669)
-                    // ),
                   ],
                 ),
               ),
@@ -230,16 +218,6 @@ class _PostScreenState extends State<PostScreen> {
 
 
     final description = userInput;
-    // // = placemark == null
-    // //     ? userInput
-    // // : '$userInput \n ${placemark.street ?? ''}, '
-    // // '${placemark.subLocality ?? ''}, '
-    // // '${placemark.locality ?? ''}, '
-    // // '${placemark.subAdministrativeArea ?? ''}, '
-    // // '${placemark.administrativeArea ?? ''}, '
-    // // '${placemark.postalCode ?? ''}, '
-    // // '${placemark.country ?? ''}';
-    //
     if (description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Description cannot be empty")),

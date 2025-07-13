@@ -73,7 +73,7 @@ class _DetailScreenState extends State<DetailScreen> {
         text: TextSpan(text: text, style: style),
         maxLines: 1,
         textDirection: TextDirection.ltr,
-      )..layout(); // Perform the layout calculation
+      )..layout();
       textWidth = textPainter.size.width;
     }
     return Consumer<DetailProvider>(
@@ -213,20 +213,6 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        // story.lat != null && story.lon != null
-                        //     ? Padding(
-                        //         padding: const EdgeInsets.symmetric(
-                        //           horizontal: 12,
-                        //         ),
-                        //         child: SizedBox(
-                        //           height: 300,
-                        //           child: ClipRRect(
-                        //             borderRadius: BorderRadius.circular(16),
-                        //             child: MapScreen(),
-                        //           ),
-                        //         ),
-                        //       )
-                        //     : SizedBox.shrink(),
                       ],
                     ),
                     StoryDetailErrorState(errorMessage: var message) => Center(

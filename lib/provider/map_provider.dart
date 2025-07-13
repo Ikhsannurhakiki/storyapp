@@ -32,7 +32,6 @@ class MapProvider extends ChangeNotifier {
 
   void setLatLng(LatLng latLng) {
     _latLng = latLng;
-    print(latLng);
     notifyListeners();
   }
   void resetLatLng() {
@@ -48,8 +47,7 @@ class MapProvider extends ChangeNotifier {
       );
       return placemarks;
     } catch (e) {
-      print('Failed to get placemark: $e');
-      return []; // or rethrow if you want to handle higher up
+      return [];
     }
   }
 }

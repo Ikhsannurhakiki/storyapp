@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storyapp/provider/profile_provider.dart';
 
+import '../flavor_config.dart';
 import '../provider/auth_provider.dart';
 import '../style/typography/story_app_text_styles.dart';
 
@@ -39,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           "Settings and Profile",
           style: StoryAppTextStyles.titleLarge,
         ),
+        backgroundColor:FlavorConfig.instance.color,
       ),
       body: Consumer<AuthProvider>(
         builder: (_, provider, _) {

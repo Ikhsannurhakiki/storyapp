@@ -17,7 +17,9 @@ import 'package:storyapp/service/shared_preferences_service.dart';
 
 import 'package:storyapp/style/theme/story_app_theme.dart';
 
-void main() async {
+import 'flavor_config.dart';
+
+Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
@@ -66,8 +68,10 @@ class MyApp extends StatelessWidget {
     return Consumer<ProfileProvider>(
       builder: (context, provider, _) {
         return MaterialApp.router(
-          title: 'Story App',
-          theme: StoryAppTheme.lightTheme,
+          title: FlavorConfig.instance.values.titleApp,
+          theme: ThemeData(
+            primarySwatch: FlavorConfig.instance.color,
+          ),
           darkTheme: StoryAppTheme.darkTheme,
           themeMode: provider.isDark ? ThemeMode.dark : ThemeMode.light,
           routerConfig: context.read<GoRouterService>().router,

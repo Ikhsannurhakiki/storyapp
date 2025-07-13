@@ -54,7 +54,7 @@ class _StoryCardState extends State<StoryCard> {
         text: TextSpan(text: text, style: style),
         maxLines: 1,
         textDirection: TextDirection.ltr,
-      )..layout(); // Perform the layout calculation
+      )..layout();
        textWidth = textPainter.size.width;
     }
 

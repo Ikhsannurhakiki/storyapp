@@ -47,7 +47,8 @@ class AuthRepository {
     final json = _pref.getString(userKey) ?? "";
     User? user;
     try {
-      user = jsonDecode(json);
+      final Map<String, dynamic> jsonMap = jsonDecode(json);
+      return User.fromJson(jsonMap);
     } catch (e) {
       user = null;
     }
