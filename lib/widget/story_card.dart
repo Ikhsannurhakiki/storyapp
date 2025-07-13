@@ -47,15 +47,16 @@ class _StoryCardState extends State<StoryCard> {
   Widget build(BuildContext context) {
     double textWidth = 0;
     if (placemark != null) {
-      String text =  "${placemark!.subAdministrativeArea.toString()}, ${placemark!.administrativeArea.toString()}";
-      TextStyle style =  StoryAppTextStyles.bodyLargeMedium;
+      String text =
+          "${placemark!.subAdministrativeArea.toString()}, ${placemark!.administrativeArea.toString()}";
+      TextStyle style = StoryAppTextStyles.bodyLargeMedium;
 
       final textPainter = TextPainter(
         text: TextSpan(text: text, style: style),
         maxLines: 1,
         textDirection: TextDirection.ltr,
       )..layout();
-       textWidth = textPainter.size.width;
+      textWidth = textPainter.size.width;
     }
 
     return GestureDetector(
@@ -95,29 +96,39 @@ class _StoryCardState extends State<StoryCard> {
                             children: [
                               Icon(Icons.pin_drop_outlined, size: 15),
                               SizedBox(width: 6),
-                              textWidth > MediaQuery.sizeOf(context).width *0.6?
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                height: 20,
-                                child: Marquee(
-                                  text:
+                              textWidth > MediaQuery.sizeOf(context).width * 0.6
+                                  ? SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width *
+                                          0.7,
+                                      height: 20,
+                                      child: Marquee(
+                                        text:
+                                            "${placemark!.subAdministrativeArea.toString()}, ${placemark!.administrativeArea.toString()}",
+                                        style:
+                                            StoryAppTextStyles.bodyLargeMedium,
+                                        scrollAxis: Axis.horizontal,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        blankSpace: 20.0,
+                                        numberOfRounds: 1,
+                                        velocity: 30.0,
+                                        pauseAfterRound: Duration(seconds: 1),
+                                        startPadding: 10.0,
+                                        accelerationDuration: Duration(
+                                          seconds: 1,
+                                        ),
+                                        accelerationCurve: Curves.fastOutSlowIn,
+                                        decelerationDuration: Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        decelerationCurve: Curves.easeOut,
+                                      ),
+                                    )
+                                  : Text(
                                       "${placemark!.subAdministrativeArea.toString()}, ${placemark!.administrativeArea.toString()}",
-                                  style: StoryAppTextStyles.bodyLargeMedium,
-                                  scrollAxis: Axis.horizontal,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  blankSpace: 20.0,
-                                  numberOfRounds: 1,
-                                  velocity: 30.0,
-                                  pauseAfterRound: Duration(seconds: 1),
-                                  startPadding: 10.0,
-                                  accelerationDuration: Duration(seconds: 1),
-                                  accelerationCurve: Curves.fastOutSlowIn,
-                                  decelerationDuration: Duration(
-                                    milliseconds: 500,
-                                  ),
-                                  decelerationCurve: Curves.easeOut,
-                                ),
-                              ): Text( "${placemark!.subAdministrativeArea.toString()}, ${placemark!.administrativeArea.toString()}", style: StoryAppTextStyles.bodyLargeMedium,),
+                                      style: StoryAppTextStyles.bodyLargeMedium,
+                                    ),
                             ],
                           )
                         : SizedBox.shrink(),

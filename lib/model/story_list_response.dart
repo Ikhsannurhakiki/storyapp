@@ -15,7 +15,8 @@ class StoryListResponse {
     required this.listStory,
   });
 
-  factory StoryListResponse.fromJson(Map<String, dynamic> json) => _$StoryListResponseFromJson(json);
+  factory StoryListResponse.fromJson(Map<String, dynamic> json) =>
+      _$StoryListResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$StoryListResponseToJson(this);
 }

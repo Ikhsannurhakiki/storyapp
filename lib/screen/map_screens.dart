@@ -62,18 +62,23 @@ class _MapScreenState extends State<MapScreen> {
         if (!serviceEnabled) return;
       }
 
-      PermissionStatus permissionGranted = await _locationService.hasPermission();
+      PermissionStatus permissionGranted = await _locationService
+          .hasPermission();
       if (permissionGranted == PermissionStatus.denied) {
         permissionGranted = await _locationService.requestPermission();
         if (permissionGranted != PermissionStatus.granted) return;
       }
 
       final locationData = await _locationService.getLocation();
-      if (locationData.latitude == null || locationData.longitude == null) return;
+      if (locationData.latitude == null || locationData.longitude == null)
+        return;
 
       latLng = LatLng(locationData.latitude!, locationData.longitude!);
 
-      final placemarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+      final placemarks = await placemarkFromCoordinates(
+        latLng.latitude,
+        latLng.longitude,
+      );
       if (placemarks.isNotEmpty) {
         placemark = placemarks.first;
         dataProvider.setPlacemark(placemark);
@@ -90,17 +95,13 @@ class _MapScreenState extends State<MapScreen> {
         Marker(
           markerId: const MarkerId("current_location"),
           position: latLng,
-          infoWindow: InfoWindow(
-            title: placemark?.street ?? "Picked Location",
-          ),
+          infoWindow: InfoWindow(title: placemark?.street ?? "Picked Location"),
         ),
       };
     });
 
     _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
   }
-
-
 
   Future<void> _onTapMap(LatLng latLng) async {
     try {
@@ -281,13 +282,20 @@ class _MapScreenState extends State<MapScreen> {
                                           AppColors.lightTeal.color,
                                     ),
                                     onPressed: () {
-                                      if (_currentLatLng != null && _placemark != null) {
+                                      if (_currentLatLng != null &&
+                                          _placemark != null) {
                                         mapProvider.setLatLng(_currentLatLng!);
                                         mapProvider.setPlacemark(_placemark!);
                                         context.go('/home/post');
                                       } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(content: Text("Please tap the map to select a location")),
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Please tap the map to select a location",
+                                            ),
+                                          ),
                                         );
                                       }
                                     },

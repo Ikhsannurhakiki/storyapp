@@ -216,7 +216,6 @@ class _PostScreenState extends State<PostScreen> {
       lon = latLng.longitude;
     }
 
-
     final description = userInput;
     if (description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -251,8 +250,8 @@ class _PostScreenState extends State<PostScreen> {
     }
 
     scaffoldMessenger.showSnackBar(
-      SnackBar(content: Text(mapProvider.latLng.toString()),
-    ));
+      SnackBar(content: Text(mapProvider.latLng.toString())),
+    );
     mapProvider.resetPlacemark();
     mapProvider.resetLatLng();
     router.go('/home');

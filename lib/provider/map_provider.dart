@@ -34,6 +34,7 @@ class MapProvider extends ChangeNotifier {
     _latLng = latLng;
     notifyListeners();
   }
+
   void resetLatLng() {
     _latLng = const LatLng(0, 0);
     notifyListeners();

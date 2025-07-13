@@ -11,7 +11,8 @@ class UploadResponse {
 
   UploadResponse({required this.error, required this.message});
 
-  factory UploadResponse.fromJson(Map<String, dynamic> json) => _$UploadResponseFromJson(json);
+  factory UploadResponse.fromJson(Map<String, dynamic> json) =>
+      _$UploadResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$UploadResponseToJson(this);
 }

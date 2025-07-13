@@ -69,9 +69,7 @@ class MyApp extends StatelessWidget {
       builder: (context, provider, _) {
         return MaterialApp.router(
           title: FlavorConfig.instance.values.titleApp,
-          theme: ThemeData(
-            primarySwatch: FlavorConfig.instance.color,
-          ),
+          theme: ThemeData(primarySwatch: FlavorConfig.instance.color),
           darkTheme: StoryAppTheme.darkTheme,
           themeMode: provider.isDark ? ThemeMode.dark : ThemeMode.light,
           routerConfig: context.read<GoRouterService>().router,
@@ -80,5 +78,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

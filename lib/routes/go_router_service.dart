@@ -118,8 +118,7 @@ class GoRouterService {
       GoRoute(
         path: '/map',
         name: "map",
-        builder: (context, state) =>
-            const MapScreen(),
+        builder: (context, state) => const MapScreen(),
       ),
     ],
   );

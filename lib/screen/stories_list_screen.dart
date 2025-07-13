@@ -30,8 +30,11 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Story App ${FlavorConfig.instance.values.titleApp}", style: StoryAppTextStyles.titleLarge),
-        backgroundColor:FlavorConfig.instance.color,
+        title: Text(
+          "Story App ${FlavorConfig.instance.values.titleApp}",
+          style: StoryAppTextStyles.titleLarge,
+        ),
+        backgroundColor: FlavorConfig.instance.color,
       ),
       body: Consumer<StoryListProvider>(
         builder: (context, provider, _) {
@@ -61,8 +64,11 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
                         stories: stories[index],
                         onTap: () => context.push(
                           '/home/storylist/detail/${stories[index].id}',
-                          extra: LatLng(stories[index].lat!, stories[index].lon!),
-                        )
+                          extra: LatLng(
+                            stories[index].lat!,
+                            stories[index].lon!,
+                          ),
+                        ),
                       );
                     } else {
                       return const Padding(

@@ -15,10 +15,7 @@ class LoaderAnimation extends CustomPainter {
       ..color = AppColors.navyBlue.color
       ..strokeWidth = 10.0;
 
-    Offset startPoint = Offset(
-      0,
-      size.height * 0.4,
-    );
+    Offset startPoint = Offset(0, size.height * 0.4);
     Offset endPoint = Offset(size.width, size.height * 0.6);
 
     canvas.drawLine(startPoint, endPoint, linePaint);
@@ -36,8 +33,13 @@ class LoaderAnimation extends CustomPainter {
       radius: radius,
     );
 
-    final Paint orangePaint = Paint()..color = AppColors.lightTeal.color..style = PaintingStyle.stroke..strokeWidth = 5;
-    final Paint bluePaint = Paint()..color = Colors.black..style = PaintingStyle.stroke;
+    final Paint orangePaint = Paint()
+      ..color = AppColors.lightTeal.color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5;
+    final Paint bluePaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke;
 
     canvas.drawArc(circleRect, 0, math.pi, true, orangePaint);
 

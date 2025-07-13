@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           "Settings and Profile",
           style: StoryAppTextStyles.titleLarge,
         ),
-        backgroundColor:FlavorConfig.instance.color,
+        backgroundColor: FlavorConfig.instance.color,
       ),
       body: Consumer<AuthProvider>(
         builder: (_, provider, _) {
