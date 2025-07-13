@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:storyapp/model/auth_response.dart';
+import 'package:storyapp/model/register_response.dart';
 import 'package:storyapp/model/story_list_response.dart';
 import 'package:storyapp/model/story_response.dart';
 
+import '../model/login_response.dart';
+import '../model/login_result.dart';
 import '../model/upload_response.dart';
 
 class ApiServices {
@@ -55,6 +57,8 @@ class ApiServices {
         'Content-Type': 'application/json',
       },
     );
+    print(response.body);
+    print(token);
     if (response.statusCode == 200) {
       return StoryListResponse.fromJson(jsonDecode(response.body));
     } else {
@@ -114,9 +118,8 @@ class ApiServices {
     final String responseData = String.fromCharCodes(responseList);
 
     if (statusCode == 201) {
-      final UploadResponse uploadResponse = UploadResponse.fromJson(
-        responseData,
-      );
+      final Map<String, dynamic> jsonMap = jsonDecode(responseData);
+      final UploadResponse uploadResponse = UploadResponse.fromJson(jsonMap);
       return uploadResponse;
     } else {
       throw Exception("Upload file error");

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/auth_response.dart';
+import '../model/register_response.dart';
 import '../model/user.dart';
 
 class AuthRepository {
@@ -35,7 +35,7 @@ class AuthRepository {
   }
 
   Future<bool> saveUser(User user) async {
-    return _pref.setString(userKey, user.toJson());
+    return _pref.setString(userKey, jsonEncode(user.toJson()));
   }
 
   Future<bool> deleteUser() async {
@@ -47,7 +47,7 @@ class AuthRepository {
     final json = _pref.getString(userKey) ?? "";
     User? user;
     try {
-      user = User.fromJson(json);
+      user = jsonDecode(json);
     } catch (e) {
       user = null;
     }
