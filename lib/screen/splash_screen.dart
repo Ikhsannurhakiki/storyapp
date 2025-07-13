@@ -1,9 +1,10 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:storyapp/style/colors/app_colors.dart';
 
-import '../provider/auth_provider.dart';
+import '../animations/loader_animation.dart';
+import '../provider/auth_provider.dart'; // Make sure this file exists and is implemented
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,8 +13,10 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-  @override
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> animation;
   @override
   void initState() {
     super.initState();
@@ -28,32 +31,36 @@ class _SplashScreenState extends State<SplashScreen> {
         context.go('/login');
       }
     });
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+
+    animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Center(
-        child: Card(
-          color: isDarkMode
-              ? AppColors.darkTeal.color
-              : AppColors.lightTeal.color,
-          shadowColor: isDarkMode
-              ? AppColors.lightTeal.color
-              : AppColors.darkTeal.color,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(100)),
-          ),
-          elevation: 15,
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Icon(
-              Icons.sticky_note_2_outlined,
-              size: 100,
-              color: Colors.white,
-            ),
-          ),
+        child: AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            return CustomPaint(
+              size: MediaQuery.of(context).size,
+              painter: LoaderAnimation(
+                angle: animation.value * 10 * math.pi,
+                progress: animation.value,
+              ),
+            );
+          },
         ),
       ),
     );
