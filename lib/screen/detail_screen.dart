@@ -241,11 +241,11 @@ class _DetailScreenState extends State<DetailScreen> {
                         const SizedBox(height: 16),
                         story.lat != null && story.lon != null
                             ? Container(
-                          color: AppColors.navyBlue.color,
-                              child: Padding(
+                                color: AppColors.navyBlue.color,
+                                child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
-                                    vertical: 12
+                                    vertical: 12,
                                   ),
                                   child: SizedBox(
                                     height: 300,
@@ -253,13 +253,16 @@ class _DetailScreenState extends State<DetailScreen> {
                                       children: [
                                         GoogleMap(
                                           initialCameraPosition: CameraPosition(
-                                            target: LatLng(story.lat!, story.lon!),
+                                            target: LatLng(
+                                              story.lat!,
+                                              story.lon!,
+                                            ),
                                             zoom: 16,
                                           ),
                                           markers: {
                                             Marker(
                                               markerId: const MarkerId(
-                                                "current_location",
+                                                "posted_location",
                                               ),
                                               position: LatLng(
                                                 story.lat!,
@@ -276,7 +279,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                           myLocationButtonEnabled: false,
                                           zoomControlsEnabled: false,
                                         ),
-                                        if (placemark != null && showCard == true)
+                                        if (placemark != null &&
+                                            showCard == true)
                                           Positioned(
                                             bottom: 16,
                                             left: 16,
@@ -284,30 +288,34 @@ class _DetailScreenState extends State<DetailScreen> {
                                             child: Card(
                                               elevation: 6,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(12),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.all(16),
+                                                padding: const EdgeInsets.all(
+                                                  8,
+                                                ),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      placemark!.street ?? "Unknown street",
-                                                      style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
+                                                      placemark!.street ??
+                                                          "Unknown street",
+                                                      style: StoryAppTextStyles
+                                                          .bodyLargeBold,
                                                     ),
                                                     const SizedBox(height: 4),
                                                     Text(
                                                       '${placemark!.subLocality ?? ""}, '
-                                                          '${placemark!.locality ?? ""}, '
-                                                          '${placemark!.subAdministrativeArea ?? ""}, '
-                                                          '${placemark!.administrativeArea ?? ""}, '
-                                                          '${placemark!.postalCode ?? ""}, '
-                                                          '${placemark!.country ?? ""}',
+                                                      '${placemark!.locality ?? ""}, '
+                                                      '${placemark!.subAdministrativeArea ?? ""}, '
+                                                      '${placemark!.administrativeArea ?? ""}, '
+                                                      '${placemark!.postalCode ?? ""}, '
+                                                      '${placemark!.country ?? ""}',
+                                                      style: StoryAppTextStyles
+                                                          .bodyLargeMedium,
                                                     ),
-                                                    SizedBox(height: 16),
                                                   ],
                                                 ),
                                               ),
@@ -317,7 +325,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     ),
                                   ),
                                 ),
-                            )
+                              )
                             : SizedBox.shrink(),
                         const SizedBox(height: 12),
                       ],

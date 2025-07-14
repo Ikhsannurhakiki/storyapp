@@ -42,7 +42,6 @@ class StoryListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<void> fetchMore() async {
     if (isLoading || !hasMore) return;
 
@@ -72,12 +71,10 @@ class StoryListProvider extends ChangeNotifier {
     }
   }
 
-
   Future<void> refresh() async {
     page = 1;
     hasMore = true;
     stories.clear();
     await fetchStoryList();
   }
-
 }

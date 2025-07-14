@@ -64,10 +64,7 @@ class _StoriesListScreenState extends State<StoriesListScreen> {
                         stories: stories[index],
                         onTap: () => context.push(
                           '/home/storylist/detail/${stories[index].id}',
-                          extra: LatLng(
-                            stories[index].lat!,
-                            stories[index].lon!,
-                          ),
+                          extra: LatLng(stories[index].lat ?? 0.0, stories[index].lon ?? 0.0),
                         ),
                       );
                     } else {
